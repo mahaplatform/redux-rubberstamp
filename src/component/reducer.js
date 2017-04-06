@@ -3,45 +3,32 @@ import * as actionTypes from './action_types'
 
 export default (reducers) => {
 
-  return (state, action) => {
+  return (state = {}, action) => {
 
-    if(state === undefined) {
-
-      return Object.keys(reducers).reduce((branches, branch) => {
-        return {
-          ...branches,
-          [branch]: {}
-        }
-      }, {})
-
-    } else if(action.type === actionTypes.ADD) {
+    if(action.type === actionTypes.ADD) {
 
       return {
-        ...state,
-        [action.namespace]: {
-          ...state[action.namespace],
-          [action.cid]: reducers[action.namespace](undefined, action)
-        }
+        ..._.set(state, `${action.namespace}.${action.cid}`, reducers[action.namespace](undefined, action))
       }
 
     } else if(action.type === actionTypes.REMOVE) {
 
       return  {
-        ...state,
-        [action.namespace]: _.omit(state[action.namespace], action.cid)
+        ..._.omit(state, `${action.namespace}.${action.cid}`)
+      }
+
+    } else if(action.cid) {
+
+      const namespace = action.type.split('/')[0]
+      const path = `${namespace}.${action.cid}`
+
+      return {
+        ..._.set(state, path, reducers[namespace](_.get(state, path), action))
       }
 
     } else {
 
-      const namespace = action.type.split('/')[0]
-
-      return {
-        ...state,
-        [namespace]: {
-          ...state[namespace],
-          [action.cid]: reducers[namespace](state[namespace][action.cid], action)
-        }
-      }
+      return state
 
     }
 

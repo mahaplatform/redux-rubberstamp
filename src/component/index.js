@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import _ from 'lodash'
 import * as actions from './actions'
 
-export default (name, mapStateToProps, mapDispatchToProps) => {
+export default (namespace, mapStateToProps, mapDispatchToProps) => {
 
   return (WrappedComponent) => {
 
@@ -20,28 +20,41 @@ export default (name, mapStateToProps, mapDispatchToProps) => {
       }
 
       componentDidMount() {
-        this.props.onAdd(name, this.cid)
+        this.props.onAdd(namespace, this.cid)
       }
 
       componentWillUnmount() {
-        this.props.onRemove(name, this.cid)
+        this.props.onRemove(namespace, this.cid)
       }
 
-      _mapStateToProps = state => ({
-        ...(state[name][this.cid]) ? mapStateToProps(state[name][this.cid]) : {},
-      })
+      _mapStateToProps = state => {
+
+        const cstate = _.get(state, `${namespace}.${this.cid}`)
+
+        return {
+          ...cstate ? mapStateToProps(cstate) : {}
+        }
+
+      }
 
       _mapDispatchToProps = () => {
+
         const cid = this.cid
+
         return Object.keys(mapDispatchToProps).reduce((mapped, key) => ({
          ...mapped,
          [key]: function() {
+
+           const singleton = mapDispatchToProps[key](...Array.prototype.slice.call(arguments))
+
            return {
-             ...mapDispatchToProps[key](...Array.prototype.slice.call(arguments)),
+             ...singleton,
              cid
            }
+
          }
         }), {})
+
       }
 
     }

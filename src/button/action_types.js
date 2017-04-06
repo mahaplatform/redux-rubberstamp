@@ -1,4 +1,4 @@
 // @flow
 
-export const INCREASE: string = 'button/INCREASE'
-export const DECREASE: string = 'button/DECREASE'
+export const INCREASE: string = 'platform.button/INCREASE'
+export const DECREASE: string = 'platform.button/DECREASE'

@@ -40,4 +40,4 @@ const mapDispatchToProps = {
   onIncrease: actions.increase
 }
 
-export default Component('button', mapStateToProps, mapDispatchToProps)(Button)
+export default Component('platform.button', mapStateToProps, mapDispatchToProps)(Button)
