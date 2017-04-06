@@ -1,5 +1,5 @@
 import React from 'react'
-import Component from '../component'
+import { Factory } from '../component'
 import * as actions from './actions'
 
 class Button extends React.Component {
@@ -41,4 +41,4 @@ const mapDispatchToProps = {
   onIncrease: actions.increase
 }
 
-export default Component('platform.button', mapStateToProps, mapDispatchToProps)(Button)
+export default Factory('platform.button', mapStateToProps, mapDispatchToProps)(Button)

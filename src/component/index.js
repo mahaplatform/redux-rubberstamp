@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import _ from 'lodash'
 import * as actions from './actions'
 
-export default (namespace, mapStateToProps, mapDispatchToProps) => {
+export const Component = (namespace, mapStateToProps, mapDispatchToProps, multiple) => {
 
   return (WrappedComponent) => {
 
@@ -20,41 +20,36 @@ export default (namespace, mapStateToProps, mapDispatchToProps) => {
       }
 
       componentDidMount() {
-        this.props.onAdd(namespace, this.cid)
+        const args = multiple ? [ namespace, this.cid ] : [ namespace ]
+        this.props.onAdd(...args)
       }
 
       componentWillUnmount() {
-        this.props.onRemove(namespace, this.cid)
+        const args = multiple ? [ namespace, this.cid ] : [ namespace ]
+        this.props.onRemove(...args)
       }
 
       _mapStateToProps = state => {
-
-        const cstate = _.get(state, `${namespace}.${this.cid}`)
-
+        const path = multiple ? `${namespace}.${this.cid}` : namespace
+        const cstate = _.get(state, path)
         return {
           ...cstate ? mapStateToProps(cstate) : {}
         }
-
       }
 
       _mapDispatchToProps = () => {
-
+        if(!multiple) return mapDispatchToProps
         const cid = this.cid
-
         return Object.keys(mapDispatchToProps).reduce((mapped, key) => ({
          ...mapped,
          [key]: function() {
-
-           const singleton = mapDispatchToProps[key](...Array.prototype.slice.call(arguments))
-
+           const action = mapDispatchToProps[key](...Array.prototype.slice.call(arguments))
            return {
-             ...singleton,
+             ...action,
              cid
            }
-
          }
         }), {})
-
       }
 
     }
@@ -68,4 +63,12 @@ export default (namespace, mapStateToProps, mapDispatchToProps) => {
 
   }
 
+}
+
+export const Factory = (namespace, mapStateToProps, mapDispatchToProps) => {
+  return Component(namespace, mapStateToProps, mapDispatchToProps, true)
+}
+
+export const Singleton = (namespace, mapStateToProps, mapDispatchToProps) => {
+  return Component(namespace, mapStateToProps, mapDispatchToProps, false)
 }

@@ -17,10 +17,10 @@ export default (reducers) => {
         ..._.omit(state, `${action.namespace}.${action.cid}`)
       }
 
-    } else if(action.cid) {
+    } else {
 
       const namespace = action.type.split('/')[0]
-      const path = `${namespace}.${action.cid}`
+      const path = action.cid ? `${namespace}.${action.cid}` : namespace
 
       if(!reducers[namespace]) {
         return state
@@ -29,10 +29,6 @@ export default (reducers) => {
       return {
         ..._.set(state, path, reducers[namespace](_.get(state, path), action))
       }
-
-    } else {
-
-      return state
 
     }
 

@@ -30,13 +30,12 @@ export default store => next => action => {
 
     const entity = (action.params && action.method !== 'GET') ? action.params : null
 
-    const config = _.omitBy({ headers, method, path, entity }, _.isNil)
+    const request = _.omitBy({ headers, method, path, entity }, _.isNil)
 
     store.dispatch({
       type: action.request,
       cid: action.cid,
-      params: action.params,
-      ...action.meta
+      request
     })
 
     const success = (json) => {
@@ -69,7 +68,7 @@ export default store => next => action => {
 
     }
 
-    return rest(config).then(response => response.entity).then(success, failure)
+    return rest({ headers, method, path, entity }).then(response => response.entity).then(success, failure)
 
   })
 

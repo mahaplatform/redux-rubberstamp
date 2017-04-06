@@ -1,43 +1,33 @@
 import React from 'react'
-import Component from '../component'
+import { Singleton } from '../component'
 import * as actions from './actions'
 
 class Toggler extends React.Component {
 
   static propTypes = {
-    endpoint: React.PropTypes.string,
-    method: React.PropTypes.string,
-    status: React.PropTypes.string,
-    text: React.PropTypes.string,
-    onFetch: React.PropTypes.func
+    on: React.PropTypes.bool,
+    onToggle: React.PropTypes.func
   }
 
   render() {
-    const { text } = this.props
-    const btnClass = this._btnClass()
+    const { on } = this.props
+    const btnClass = (on) ? 'btn btn-success' : 'btn btn-danger'
+    const text = (on) ? 'ON' : 'OFF'
     return <button className={ btnClass } onClick={ this._handleClick.bind(this) }>{ text }</button>
   }
 
-  _btnClass() {
-    const { status } = this.props
-    if(status === 'pending') return 'btn btn-default'
-    if(status === 'success') return 'btn btn-success'
-    if(status === 'failure') return 'btn btn-danger'
-  }
-
   _handleClick() {
-    this.props.onFetch(this.props.method, this.props.endpoint)
+    this.props.onToggle()
   }
 
 }
 
 const mapStateToProps = state => ({
-  status: state.status,
-  text: state.text
+  on: state.on
 })
 
 const mapDispatchToProps = {
-  onFetch: actions.fetch
+  onToggle: actions.toggle
 }
 
-export default Component('platform.toggler', mapStateToProps, mapDispatchToProps)(Toggler)
+export default Singleton('platform.toggler', mapStateToProps, mapDispatchToProps)(Toggler)
