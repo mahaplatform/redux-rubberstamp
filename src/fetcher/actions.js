@@ -1,7 +1,7 @@
 import * as actionTypes from './action_types'
 
 export const fetch = (method, endpoint) => ({
-  type: 'api/REQUEST',
+  type: 'API_REQUEST',
   method,
   endpoint,
   request: actionTypes.FETCH_REQUEST,

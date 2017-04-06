@@ -38,7 +38,6 @@ export const Component = (namespace, mapStateToProps, mapDispatchToProps, multip
       }
 
       _mapDispatchToProps = () => {
-        if(!multiple) return mapDispatchToProps
         const cid = this.cid
         return Object.keys(mapDispatchToProps).reduce((mapped, key) => ({
          ...mapped,
@@ -46,7 +45,8 @@ export const Component = (namespace, mapStateToProps, mapDispatchToProps, multip
            const action = mapDispatchToProps[key](...Array.prototype.slice.call(arguments))
            return {
              ...action,
-             cid
+             type: `${namespace}/${action.type}`,
+             ...(multiple) ? { cid } : {}
            }
          }
         }), {})
@@ -71,4 +71,20 @@ export const Factory = (namespace, mapStateToProps, mapDispatchToProps) => {
 
 export const Singleton = (namespace, mapStateToProps, mapDispatchToProps) => {
   return Component(namespace, mapStateToProps, mapDispatchToProps, false)
+}
+
+export default (name, namespace, component, reducer, actions) => {
+
+  const mapStateToProps = state => state
+
+  const mapDispatchToProps = Object.keys(actions).reduce((props, action) => ({
+    ...props,
+    [`on${_.capitalize(action)}`]: actions[action]
+  }), {})
+
+  return {
+    Component: Factory(namespace, mapStateToProps, mapDispatchToProps)(component),
+    Reducer: { [namespace]: reducer }
+  }
+
 }

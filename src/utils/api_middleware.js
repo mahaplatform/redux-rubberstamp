@@ -5,7 +5,9 @@ import local from './local'
 
 export default store => next => action => {
 
-  if(action.type !== 'api/REQUEST') {
+  const [ namespace, action_type ] = action.type.split('/')
+
+  if(action_type !== 'API_REQUEST') {
     return next(action)
   }
 
@@ -24,16 +26,16 @@ export default store => next => action => {
       ...token ? { 'Authorization': `Bearer ${token}` }: {}
     }
 
-    const method = action.method || 'GET'
+    const method = action.method.toUpperCase() || 'GET'
 
-    const path = (action.params && action.method === 'GET') ? `/api${action.endpoint}?${qs.stringify(options.params)}` : `/api${action.endpoint}`
+    const path = (action.params && method === 'GET') ? `/api${action.endpoint}?${qs.stringify(options.params)}` : `/api${action.endpoint}`
 
-    const entity = (action.params && action.method !== 'GET') ? action.params : null
+    const entity = (action.params && method !== 'GET') ? action.params : null
 
     const request = _.omitBy({ headers, method, path, entity }, _.isNil)
 
     store.dispatch({
-      type: action.request,
+      type: `${namespace}/${action.request}`,
       cid: action.cid,
       request
     })
@@ -41,7 +43,7 @@ export default store => next => action => {
     const success = (json) => {
 
       store.dispatch({
-        type: action.success,
+        type: `${namespace}/${action.success}`,
         cid: action.cid,
         ...action.meta,
         ...json
@@ -60,7 +62,7 @@ export default store => next => action => {
       }
 
       store.dispatch({
-        type: action.failure,
+        type: `${namespace}/${action.failure}`,
         cid: action.cid,
         ...action.meta,
         ...response.entity

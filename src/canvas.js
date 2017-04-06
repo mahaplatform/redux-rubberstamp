@@ -8,11 +8,11 @@ class Canvas extends React.Component {
   render() {
     return (
       <div className="container text-center">
-        <div><Button /></div>
-        <div><Button /></div>
-        <div><Fetcher method="get" endpoint="/foo" /></div>
-        <div><Fetcher method="get" endpoint="/bar" /></div>
-        <div><Fetcher method="get" endpoint="/baz" /></div>
+        <div><Button.Component /></div>
+        <div><Button.Component /></div>
+        <div><Fetcher.Component method="get" endpoint="/foo" /></div>
+        <div><Fetcher.Component method="get" endpoint="/bar" /></div>
+        <div><Fetcher.Component method="get" endpoint="/baz" /></div>
         <div><Toggler /></div>
       </div>
     )
