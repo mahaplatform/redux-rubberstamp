@@ -6,7 +6,8 @@ class Button extends React.Component {
 
   static propTypes = {
     clicked: React.PropTypes.number,
-    onClick: React.PropTypes.func
+    onDecrease: React.PropTypes.func,
+    onIncrease: React.PropTypes.func
   }
 
   render() {
