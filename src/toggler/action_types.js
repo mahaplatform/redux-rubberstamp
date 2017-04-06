@@ -1,3 +1,3 @@
 // @flow
 
-export const TOGGLE: string = 'platform.toggler/TOGGLE'
+export const TOGGLE: string = 'TOGGLE'

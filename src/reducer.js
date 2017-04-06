@@ -2,10 +2,10 @@ import component from './component/reducer'
 
 import Button from './button'
 import Fetcher from './fetcher'
-import toggler from './toggler/reducer'
+import Toggler from './toggler'
 
 export default component({
   ...Button.Reducer,
   ...Fetcher.Reducer,
-  'platform.toggler': toggler
+  ...Toggler.Reducer
 })

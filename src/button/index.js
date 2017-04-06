@@ -1,6 +1,6 @@
-import Component from '../component'
+import { Factory } from '../component'
 import reducer from './reducer'
 import Button from './button'
 import * as actions from './actions'
 
-export default Component('Button', 'platform.button', Button, reducer, actions)
+export default Factory('Button', 'one.two.button', Button, reducer, actions)

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import _ from 'lodash'
 import * as actions from './actions'
 
-export const Component = (namespace, mapStateToProps, mapDispatchToProps, multiple) => {
+const Component = (namespace, mapStateToProps, mapDispatchToProps, multiple) => {
 
   return (WrappedComponent) => {
 
@@ -65,15 +65,7 @@ export const Component = (namespace, mapStateToProps, mapDispatchToProps, multip
 
 }
 
-export const Factory = (namespace, mapStateToProps, mapDispatchToProps) => {
-  return Component(namespace, mapStateToProps, mapDispatchToProps, true)
-}
-
-export const Singleton = (namespace, mapStateToProps, mapDispatchToProps) => {
-  return Component(namespace, mapStateToProps, mapDispatchToProps, false)
-}
-
-export default (name, namespace, component, reducer, actions) => {
+const Builder = (name, namespace, component, reducer, actions, multiple) => {
 
   const mapStateToProps = state => state
 
@@ -83,8 +75,20 @@ export default (name, namespace, component, reducer, actions) => {
   }), {})
 
   return {
-    Component: Factory(namespace, mapStateToProps, mapDispatchToProps)(component),
+    Component: Component(namespace, mapStateToProps, mapDispatchToProps, multiple)(component),
     Reducer: { [namespace]: reducer }
   }
+
+}
+
+export const Factory = (name, namespace, component, reducer, actions) => {
+
+  return Builder(name, namespace, component, reducer, actions, true)
+
+}
+
+export const Singleton = (name, namespace, component, reducer, actions) => {
+
+  return Builder(name, namespace, component, reducer, actions, false)
 
 }

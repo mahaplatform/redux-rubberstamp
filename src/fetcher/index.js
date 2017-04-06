@@ -1,6 +1,6 @@
-import Component from '../component'
+import { Factory } from '../component'
 import reducer from './reducer'
 import Fetcher from './fetcher'
 import * as actions from './actions'
 
-export default Component('Fetcher', 'platform.fetcher', Fetcher, reducer, actions)
+export default Factory('Fetcher', 'one.fetcher', Fetcher, reducer, actions)
