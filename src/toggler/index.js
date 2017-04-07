@@ -1,6 +1,6 @@
 import { Singleton } from '../component'
 import reducer from './reducer'
-import Toggler from './toggler'
+import Component from './toggler'
 import * as actions from './actions'
 
-export default Singleton('Toggler', 'one.two.three.toggler', Toggler, reducer, actions)
+export const [ Toggler, Reducer ] = Singleton('one.two.three.toggler', Component, reducer, actions)

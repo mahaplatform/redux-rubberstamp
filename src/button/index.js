@@ -1,6 +1,6 @@
 import { Factory } from '../component'
 import reducer from './reducer'
-import Button from './button'
+import Component from './button'
 import * as actions from './actions'
 
-export default Factory('Button', 'one.two.button', Button, reducer, actions)
+export const [ Button, Reducer ] = Factory('one.two.button', Component, reducer, actions)

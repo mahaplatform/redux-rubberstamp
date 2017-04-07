@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import _ from 'lodash'
 import * as actions from './actions'
+import reducer from './reducer'
 
 const Component = (namespace, mapStateToProps, mapDispatchToProps, multiple) => {
 
@@ -65,7 +66,7 @@ const Component = (namespace, mapStateToProps, mapDispatchToProps, multiple) => 
 
 }
 
-const Builder = (name, namespace, component, reducer, actions, multiple) => {
+const Builder = (namespace, component, reducer, actions, multiple) => {
 
   const mapStateToProps = state => state
 
@@ -74,21 +75,28 @@ const Builder = (name, namespace, component, reducer, actions, multiple) => {
     [`on${_.capitalize(action)}`]: actions[action]
   }), {})
 
-  return {
-    Component: Component(namespace, mapStateToProps, mapDispatchToProps, multiple)(component),
-    Reducer: { [namespace]: reducer }
-  }
+  return [
+    Component(namespace, mapStateToProps, mapDispatchToProps, multiple)(component),
+    { [namespace]: reducer }
+  ]
 
 }
 
-export const Factory = (name, namespace, component, reducer, actions) => {
+export const Factory = (namespace, component, reducer, actions) => {
 
-  return Builder(name, namespace, component, reducer, actions, true)
+  return Builder(namespace, component, reducer, actions, true)
 
 }
 
-export const Singleton = (name, namespace, component, reducer, actions) => {
+export const Singleton = (namespace, component, reducer, actions) => {
 
-  return Builder(name, namespace, component, reducer, actions, false)
+  return Builder(namespace, component, reducer, actions, false)
 
+}
+
+export const combineReducers = (reducers) => {
+  return reducer(reducers.reduce((reducers, reducer) => ({
+    ...reducers,
+    ...reducer
+  }), {}))
 }

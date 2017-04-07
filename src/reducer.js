@@ -1,11 +1,10 @@
-import component from './component/reducer'
+import { combineReducers } from './component'
+import { Reducer as Button } from './button'
+import { Reducer as Fetcher } from './fetcher'
+import { Reducer as Toggler } from './toggler'
 
-import Button from './button'
-import Fetcher from './fetcher'
-import Toggler from './toggler'
-
-export default component({
-  ...Button.Reducer,
-  ...Fetcher.Reducer,
-  ...Toggler.Reducer
-})
+export default combineReducers([
+  Button,
+  Fetcher,
+  Toggler
+])
