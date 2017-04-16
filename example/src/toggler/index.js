@@ -1,4 +1,4 @@
-import { Singleton } from '../component'
+import { Singleton } from 'redux-rubberstamp'
 import reducer from './reducer'
 import component from './toggler'
 import * as actions from './actions'
