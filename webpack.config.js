@@ -1,6 +1,5 @@
 const path = require('path')
 const webpack = require('webpack')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = (env) => ({
   entry: {
@@ -8,21 +7,8 @@ module.exports = (env) => ({
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: './js/[name].[chunkhash].js'
+    filename: './index.js'
   },
-  plugins: [
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-      minChunks: (module) => {
-        return module.context && module.context.indexOf('node_modules') !== -1;
-      }
-    }),
-    new HtmlWebpackPlugin({
-      filename: path.resolve(__dirname, 'dist', 'index.html'),
-      template: path.resolve(__dirname, 'src', 'index.html'),
-      title: 'Multi Redux'
-    })
-  ],
   module: {
     loaders: [
       {
