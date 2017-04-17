@@ -29,17 +29,21 @@ exports.default = function (reducers) {
 
     if (action.type === actionTypes.ADD) {
 
-      return _extends({}, _lodash2.default.set(state, action.namespace + '.' + action.cid, reducers[action.namespace](undefined, action)));
+      var path = action.cid ? action.namespace + '.' + action.cid : action.namespace;
+
+      return _extends({}, _lodash2.default.set(state, path, reducers[action.namespace](undefined, action)));
     } else if (action.type === actionTypes.REMOVE) {
 
-      return _extends({}, _lodash2.default.omit(state, action.namespace + '.' + action.cid));
+      var _path = action.cid ? action.namespace + '.' + action.cid : action.namespace;
+
+      return _extends({}, _lodash2.default.omit(state, _path));
     } else {
       var _action$type$split = action.type.split('/'),
           _action$type$split2 = _slicedToArray(_action$type$split, 2),
           namespace = _action$type$split2[0],
           action_type = _action$type$split2[1];
 
-      var path = action.cid ? namespace + '.' + action.cid : namespace;
+      var _path2 = action.cid ? namespace + '.' + action.cid : namespace;
 
       var caction = _extends({}, action, {
         type: action_type
@@ -49,7 +53,7 @@ exports.default = function (reducers) {
         return state;
       }
 
-      return _extends({}, _lodash2.default.set(state, path, reducers[namespace](_lodash2.default.get(state, path), caction)));
+      return _extends({}, _lodash2.default.set(state, _path2, reducers[namespace](_lodash2.default.get(state, _path2), caction)));
     }
   };
 };
