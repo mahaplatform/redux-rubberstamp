@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import _ from 'lodash'
 import * as actions from './actions'
 import reducer from './reducer'
+import api_middleware from './api_middleware'
 
 const Component = (namespace, mapStateToProps, mapDispatchToProps, multiple) => {
 
@@ -43,12 +44,23 @@ const Component = (namespace, mapStateToProps, mapDispatchToProps, multiple) => 
         return Object.keys(mapDispatchToProps).reduce((mapped, key) => ({
          ...mapped,
          [key]: function() {
+
            const action = mapDispatchToProps[key](...Array.prototype.slice.call(arguments))
+
+           if(action.type === 'API_REQUEST') {
+             return {
+               ...action,
+               namespace,
+               ...(multiple) ? { cid } : {}
+             }
+           }
+
            return {
              ...action,
              type: `${namespace}/${action.type}`,
              ...(multiple) ? { cid } : {}
            }
+
          }
         }), {})
       }
@@ -93,6 +105,8 @@ export const Singleton = (namespace, component, reducer, actions) => {
   return Builder(namespace, component, reducer, actions, false)
 
 }
+
+export const apiMiddleware = api_middleware
 
 export const combineReducers = (reducers) => {
   return reducer(reducers.reduce((reducers, reducer) => ({

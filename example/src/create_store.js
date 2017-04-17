@@ -1,7 +1,7 @@
 import { createStore, applyMiddleware } from 'redux'
 import thunkMiddleware from 'redux-thunk'
 import { createLogger } from 'redux-logger'
-import apiMiddleware from './utils/api_middleware'
+import { apiMiddleware } from 'redux-rubberstamp'
 
 const CreateStore = (reducer) => {
 
