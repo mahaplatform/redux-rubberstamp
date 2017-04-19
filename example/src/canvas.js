@@ -1,7 +1,7 @@
 import React from 'react'
-import { Button } from './button'
-import { Fetcher } from './fetcher'
-import { Toggler } from './toggler'
+import Button from './button'
+import Fetcher from './fetcher'
+import Toggler from './toggler'
 
 class Canvas extends React.Component {
 

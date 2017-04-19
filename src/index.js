@@ -87,10 +87,14 @@ const Builder = (namespace, component, reducer, actions, multiple) => {
     [`on${_.capitalize(action)}`]: actions[action]
   }), {})
 
-  return [
-    Component(namespace, mapStateToProps, mapDispatchToProps, multiple)(component),
-    { [namespace]: reducer }
-  ]
+  const NamespacedComponent = Component(namespace, mapStateToProps, mapDispatchToProps, reducer, multiple)(component)
+
+  NamespacedComponent.reducer = {
+    namespace,
+    'function': reducer
+  }
+
+  return NamespacedComponent
 
 }
 
@@ -108,9 +112,9 @@ export const Singleton = (namespace, component, reducer, actions) => {
 
 export const apiMiddleware = api_middleware
 
-export const combineReducers = (reducers) => {
-  return reducer(reducers.reduce((reducers, reducer) => ({
+export const combineReducers = (components) => {
+  return reducer(components.reduce((reducers, component) => ({
     ...reducers,
-    ...reducer
+    [component.reducer.namespace]: component.reducer.function
   }), {}))
 }

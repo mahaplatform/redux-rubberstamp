@@ -132,7 +132,14 @@ var Builder = function Builder(namespace, component, reducer, actions, multiple)
     return _extends({}, props, _defineProperty({}, 'on' + _lodash2.default.capitalize(action), actions[action]));
   }, {});
 
-  return [Component(namespace, mapStateToProps, mapDispatchToProps, multiple)(component), _defineProperty({}, namespace, reducer)];
+  var NamespacedComponent = Component(namespace, mapStateToProps, mapDispatchToProps, reducer, multiple)(component);
+
+  NamespacedComponent.reducer = {
+    namespace: namespace,
+    'function': reducer
+  };
+
+  return NamespacedComponent;
 };
 
 var Factory = exports.Factory = function Factory(namespace, component, reducer, actions) {
@@ -147,8 +154,8 @@ var Singleton = exports.Singleton = function Singleton(namespace, component, red
 
 var apiMiddleware = exports.apiMiddleware = _api_middleware2.default;
 
-var combineReducers = exports.combineReducers = function combineReducers(reducers) {
-  return (0, _reducer2.default)(reducers.reduce(function (reducers, reducer) {
-    return _extends({}, reducers, reducer);
+var combineReducers = exports.combineReducers = function combineReducers(components) {
+  return (0, _reducer2.default)(components.reduce(function (reducers, component) {
+    return _extends({}, reducers, _defineProperty({}, component.reducer.namespace, component.reducer.function));
   }, {}));
 };
