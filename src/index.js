@@ -84,7 +84,7 @@ const Builder = (namespace, component, reducer, actions, multiple) => {
 
   const mapDispatchToProps = Object.keys(actions).reduce((props, action) => ({
     ...props,
-    [`on${_.capitalize(action)}`]: actions[action]
+    [`on${_.upperFirst(action)}`]: actions[action]
   }), {})
 
   const NamespacedComponent = Component(namespace, mapStateToProps, mapDispatchToProps, multiple)(component)

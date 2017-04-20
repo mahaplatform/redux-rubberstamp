@@ -129,7 +129,7 @@ var Builder = function Builder(namespace, component, reducer, actions, multiple)
   };
 
   var mapDispatchToProps = Object.keys(actions).reduce(function (props, action) {
-    return _extends({}, props, _defineProperty({}, 'on' + _lodash2.default.capitalize(action), actions[action]));
+    return _extends({}, props, _defineProperty({}, 'on' + _lodash2.default.upperFirst(action), actions[action]));
   }, {});
 
   var NamespacedComponent = Component(namespace, mapStateToProps, mapDispatchToProps, multiple)(component);
