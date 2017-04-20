@@ -65,7 +65,7 @@ var Component = function Component(namespace, mapStateToProps, mapDispatchToProp
 
               var action = mapDispatchToProps[key].apply(mapDispatchToProps, _toConsumableArray(Array.prototype.slice.call(arguments)));
 
-              if (action.type === 'API_REQUEST') {
+              if (_lodash2.default.includes(['API_REQUEST', 'LOCAL_GET', 'LOCAL_SET', 'LOCAL_REMOVE'], action.type)) {
                 return _extends({}, action, {
                   namespace: namespace
                 }, multiple ? { cid: cid } : {});
