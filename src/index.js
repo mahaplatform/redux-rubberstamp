@@ -87,7 +87,7 @@ const Builder = (namespace, component, reducer, actions, multiple) => {
     [`on${_.capitalize(action)}`]: actions[action]
   }), {})
 
-  const NamespacedComponent = Component(namespace, mapStateToProps, mapDispatchToProps, reducer, multiple)(component)
+  const NamespacedComponent = Component(namespace, mapStateToProps, mapDispatchToProps, multiple)(component)
 
   NamespacedComponent.reducer = {
     namespace,

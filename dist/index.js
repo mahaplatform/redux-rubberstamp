@@ -132,7 +132,7 @@ var Builder = function Builder(namespace, component, reducer, actions, multiple)
     return _extends({}, props, _defineProperty({}, 'on' + _lodash2.default.capitalize(action), actions[action]));
   }, {});
 
-  var NamespacedComponent = Component(namespace, mapStateToProps, mapDispatchToProps, reducer, multiple)(component);
+  var NamespacedComponent = Component(namespace, mapStateToProps, mapDispatchToProps, multiple)(component);
 
   NamespacedComponent.reducer = {
     namespace: namespace,
