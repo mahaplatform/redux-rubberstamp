@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import _ from 'lodash'
 import * as actions from './actions'
 import reducer from './reducer'
-import api_middleware from './api_middleware'
 
 const Component = (namespace, mapStateToProps, mapDispatchToProps, multiple) => {
 
@@ -109,8 +108,6 @@ export const Singleton = (namespace, component, reducer, actions) => {
   return Builder(namespace, component, reducer, actions, false)
 
 }
-
-export const apiMiddleware = api_middleware
 
 export const combineReducers = (components) => {
   return reducer(components.reduce((reducers, component) => ({
