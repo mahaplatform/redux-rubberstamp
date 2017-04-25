@@ -46,14 +46,6 @@ const Component = (namespace, mapStateToProps, mapDispatchToProps, multiple) => 
 
            const action = mapDispatchToProps[key](...Array.prototype.slice.call(arguments))
 
-           if(_.includes(['API_REQUEST', 'LOCAL_GET', 'LOCAL_SET', 'LOCAL_REMOVE'], action.type)) {
-             return {
-               ...action,
-               namespace,
-               ...(multiple) ? { cid } : {}
-             }
-           }
-
            return {
              ...action,
              type: `${namespace}/${action.type}`,

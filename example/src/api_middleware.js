@@ -4,11 +4,11 @@ import rest from './rest'
 
 export default store => next => action => {
 
-  if(action.type !== 'API_REQUEST') {
+  const [string, namespace, type] = action.type.match(/([\a-z0-9_\.]*)?\/?([A-Z0-9_]*)/)
+
+  if(type !== 'API_REQUEST') {
     return next(action)
   }
-
-  const namespace = action.namespace
 
   const params = action.params || {}
 
