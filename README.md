@@ -21,11 +21,44 @@ npm install --save redux-rubberstamp
 ## Usage
 Using redux-rubberstamp in your application is easy:
 
+If you only need one instance of the component in your state tree, you can export
+it as a singleton component:
+```javascript
+import { Singleton } from 'redux-rubberstamp'
+import reducer from './reducer'
+import component from './button'
+import * as actions from './actions'
+
+export default Singleton('button', component, reducer, actions)
+```
+
+If you only need multiple instances of the component in your state tree, you can
+export it as a factory component:
 ```javascript
 import { Factory } from 'redux-rubberstamp'
 import reducer from './reducer'
 import component from './button'
 import * as actions from './actions'
 
-export const [ Button, Reducer ] = Factory('button', component, reducer, actions)
+export default Factory('button', component, reducer, actions)
+```
+
+When you use the component in your react app, you treat it like any default export:
+```javascript
+import Button from './components/button'
+
+const () => {
+  return <Button />
+}
+```
+
+In order to manage the master state tree, redux-rubberstamp provides a custom
+`combineReducers` function to manage the components place in the state tree:
+```javascript
+import { combineReducers } from 'redux-rubberstamp'
+import Button from './button'
+
+export default combineReducers([
+  Button
+])
 ```
