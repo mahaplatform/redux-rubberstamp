@@ -1,18 +1,40 @@
 {
   "name": "redux-rubberstamp",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "description": "Pattern for hosting multiple versions of a component tree inside the main state tree",
   "main": "dist/index.js",
-  "directories": {
-    "example": "examples"
+  "scripts": {
+    "build": "rm -rf ./dist && babel ./src --out-dir ./dist",
+    "test": "NODE_ENV=test NODE_PATH=./src mocha --recursive --require babel-core/register ./src/tests/*"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thinktopography/redux-rubberstamp.git"
+  },
+  "author": "Greg Kops <greg@thinktopography.com>",
+  "maintainers": [
+    {
+      "name": "Greg Kops",
+      "email": "greg@thinktopography.com"
+    }
+  ],
+  "keywords": [
+    "react",
+    "redux",
+    "components",
+    "factory",
+    "singleton"
+  ],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thinktopography/redux-rubberstamp/issues"
+  },
+  "homepage": "https://github.com/thinktopography/redux-rubberstamp#readme",
   "dependencies": {
     "lodash": "^4.17.4",
-    "qs": "^6.4.0",
     "react": "^15.5.4",
     "react-redux": "^5.0.4",
-    "redux": "^3.6.0",
-    "rest": "^2.0.0"
+    "redux": "^3.6.0"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
@@ -24,19 +46,5 @@
     "chai": "^3.5.0",
     "mocha": "^3.2.0",
     "webpack": "^2.4.1"
-  },
-  "scripts": {
-    "build": "rm -rf ./dist && babel ./src --out-dir ./dist",
-    "test": "NODE_ENV=test NODE_PATH=. mocha --recursive --require babel-core/register ./src/tests/*"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/thinktopography/redux-rubberstamp.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/thinktopography/redux-rubberstamp/issues"
-  },
-  "homepage": "https://github.com/thinktopography/redux-rubberstamp#readme"
+  }
 }

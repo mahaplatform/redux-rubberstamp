@@ -20,7 +20,7 @@ module.exports = (env) => ({
     new HtmlWebpackPlugin({
       filename: path.resolve(__dirname, 'dist', 'index.html'),
       template: path.resolve(__dirname, 'src', 'index.html'),
-      title: 'Multi Redux'
+      title: 'redux-rubberstamp'
     })
   ],
   module: {
