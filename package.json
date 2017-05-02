@@ -1,6 +1,6 @@
 {
   "name": "redux-rubberstamp",
-  "version": "1.1.7",
+  "version": "1.2.0",
   "description": "Pattern for hosting multiple versions of a component tree inside the main state tree",
   "main": "dist/index.js",
   "scripts": {
@@ -25,6 +25,9 @@
     "factory",
     "singleton"
   ],
+  "files": [
+    "dist/"
+  ],
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/thinktopography/redux-rubberstamp/issues"
@@ -32,8 +35,8 @@
   "homepage": "https://github.com/thinktopography/redux-rubberstamp#readme",
   "dependencies": {
     "lodash": "^4.17.4",
-    "react": "^15.5.4",
     "react-redux": "^5.0.4",
+    "react": "^15.5.4",
     "redux": "^3.6.0"
   },
   "devDependencies": {

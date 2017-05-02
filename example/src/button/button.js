@@ -1,11 +1,12 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 class Button extends React.Component {
 
   static propTypes = {
-    clicked: React.PropTypes.number,
-    onDecrease: React.PropTypes.func,
-    onIncrease: React.PropTypes.func
+    clicked: PropTypes.number,
+    onDecrease: PropTypes.func,
+    onIncrease: PropTypes.func
   }
 
   render() {

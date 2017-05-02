@@ -12,17 +12,22 @@ const Component = (namespace, mapStateToProps, mapDispatchToProps, multiple) => 
 
       constructor(props) {
         super(props)
+        this.state = {
+          show: false
+        }
         this.cid = _.random(100000, 999999).toString(36)
       }
 
       render() {
+        const { show } = this.state
         const Wrapped = connect(this._mapStateToProps, this._mapDispatchToProps())(WrappedComponent)
-        return <Wrapped {...this.props} />
+        return show ? <Wrapped {...this.props} /> : null
       }
 
       componentDidMount() {
         const args = multiple ? [ namespace, this.cid ] : [ namespace ]
         this.props.onAdd(...args)
+        this.setState({ show: true })
       }
 
       componentWillUnmount() {
@@ -69,9 +74,15 @@ const Component = (namespace, mapStateToProps, mapDispatchToProps, multiple) => 
 
 }
 
-const Builder = (namespace, component, reducer, actions, multiple) => {
+const Builder = ({ namespace, component, reducer, epic, selectors, actions, multiple }) => {
 
-  const mapStateToProps = state => state
+  const mapStateToProps = state => ({
+    ...state,
+    ...selectors ? Object.keys(selectors).reduce((selecedState, key) => ({
+      ...selecedState,
+      [key]: selectors[key](state)
+    }), {}) : {}
+  })
 
   const mapDispatchToProps = Object.keys(actions).reduce((props, action) => ({
     ...props,
@@ -85,19 +96,30 @@ const Builder = (namespace, component, reducer, actions, multiple) => {
     'function': reducer
   }
 
+  NamespacedComponent.epic = epic ? {
+    namespace,
+    'function': epic
+  } : null
+
   return NamespacedComponent
 
 }
 
-export const Factory = (namespace, component, reducer, actions) => {
+export const Factory = (options) => {
 
-  return Builder(namespace, component, reducer, actions, true)
+  return Builder({
+    ...options,
+    multiple: true
+  })
 
 }
 
-export const Singleton = (namespace, component, reducer, actions) => {
+export const Singleton = (options) => {
 
-  return Builder(namespace, component, reducer, actions, false)
+  return Builder({
+    ...options,
+    multiple: false
+  })
 
 }
 

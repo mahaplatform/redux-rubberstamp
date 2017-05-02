@@ -1,10 +1,11 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 class Toggler extends React.Component {
 
   static propTypes = {
-    on: React.PropTypes.bool,
-    onToggle: React.PropTypes.func
+    on: PropTypes.bool,
+    onToggle: PropTypes.func
   }
 
   render() {

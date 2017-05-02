@@ -72,6 +72,9 @@ var Component = function Component(namespace, mapStateToProps, mapDispatchToProp
           }, {});
         };
 
+        _this.state = {
+          show: false
+        };
         _this.cid = _lodash2.default.random(100000, 999999).toString(36);
         return _this;
       }
@@ -79,8 +82,10 @@ var Component = function Component(namespace, mapStateToProps, mapDispatchToProp
       _createClass(Component, [{
         key: 'render',
         value: function render() {
+          var show = this.state.show;
+
           var Wrapped = (0, _reactRedux.connect)(this._mapStateToProps, this._mapDispatchToProps())(WrappedComponent);
-          return _react2.default.createElement(Wrapped, this.props);
+          return show ? _react2.default.createElement(Wrapped, this.props) : null;
         }
       }, {
         key: 'componentDidMount',
@@ -89,6 +94,7 @@ var Component = function Component(namespace, mapStateToProps, mapDispatchToProp
 
           var args = multiple ? [namespace, this.cid] : [namespace];
           (_props = this.props).onAdd.apply(_props, args);
+          this.setState({ show: true });
         }
       }, {
         key: 'componentWillUnmount',
@@ -112,10 +118,20 @@ var Component = function Component(namespace, mapStateToProps, mapDispatchToProp
   };
 };
 
-var Builder = function Builder(namespace, component, reducer, actions, multiple) {
+var Builder = function Builder(_ref) {
+  var namespace = _ref.namespace,
+      component = _ref.component,
+      reducer = _ref.reducer,
+      epic = _ref.epic,
+      selectors = _ref.selectors,
+      actions = _ref.actions,
+      multiple = _ref.multiple;
+
 
   var mapStateToProps = function mapStateToProps(state) {
-    return state;
+    return _extends({}, state, selectors ? Object.keys(selectors).reduce(function (selecedState, key) {
+      return _extends({}, selecedState, _defineProperty({}, key, selectors[key](state)));
+    }, {}) : {});
   };
 
   var mapDispatchToProps = Object.keys(actions).reduce(function (props, action) {
@@ -129,17 +145,26 @@ var Builder = function Builder(namespace, component, reducer, actions, multiple)
     'function': reducer
   };
 
+  NamespacedComponent.epic = epic ? {
+    namespace: namespace,
+    'function': epic
+  } : null;
+
   return NamespacedComponent;
 };
 
-var Factory = exports.Factory = function Factory(namespace, component, reducer, actions) {
+var Factory = exports.Factory = function Factory(options) {
 
-  return Builder(namespace, component, reducer, actions, true);
+  return Builder(_extends({}, options, {
+    multiple: true
+  }));
 };
 
-var Singleton = exports.Singleton = function Singleton(namespace, component, reducer, actions) {
+var Singleton = exports.Singleton = function Singleton(options) {
 
-  return Builder(namespace, component, reducer, actions, false);
+  return Builder(_extends({}, options, {
+    multiple: false
+  }));
 };
 
 var combineReducers = exports.combineReducers = function combineReducers(components) {

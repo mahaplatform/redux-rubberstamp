@@ -1,13 +1,14 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 class Fetcher extends React.Component {
 
   static propTypes = {
-    endpoint: React.PropTypes.string,
-    method: React.PropTypes.string,
-    status: React.PropTypes.string,
-    text: React.PropTypes.string,
-    onFetch: React.PropTypes.func
+    endpoint: PropTypes.string,
+    method: PropTypes.string,
+    status: PropTypes.string,
+    text: PropTypes.string,
+    onFetch: PropTypes.func
   }
 
   render() {
