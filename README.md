@@ -26,10 +26,17 @@ it as a singleton component:
 ```javascript
 import { Singleton } from 'redux-rubberstamp'
 import reducer from './reducer'
-import component from './button'
+import button from './button'
 import * as actions from './actions'
+import * as selectors from './selectors'
 
-export default Singleton('button', component, reducer, actions)
+export default Singleton({
+  namespace: 'button',
+  component: button,
+  reducer,
+  actions,
+  selectors
+})
 ```
 
 If you only need multiple instances of the component in your state tree, you can
@@ -37,10 +44,17 @@ export it as a factory component:
 ```javascript
 import { Factory } from 'redux-rubberstamp'
 import reducer from './reducer'
-import component from './button'
+import button from './button'
 import * as actions from './actions'
+import * as selectors from './selectors'
 
-export default Factory('button', component, reducer, actions)
+export default Factory({
+  namespace: 'button',
+  component: button,
+  reducer,
+  actions,
+  selectors
+})
 ```
 
 When you use the component in your react app, you treat it like any default export:
