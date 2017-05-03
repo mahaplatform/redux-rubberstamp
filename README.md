@@ -1,12 +1,12 @@
 # redux-rubberstamp
-<a href="https://circleci.com/gh/thinktopography/redux-rubberstamp">
-  <img src="https://img.shields.io/circleci/project/thinktopography/redux-rubberstamp.svg?maxAge=600" alt="Build Status" >
+<a href="https://circleci.com/gh/mahaplatform/redux-rubberstamp">
+  <img src="https://img.shields.io/circleci/project/mahaplatform/redux-rubberstamp.svg?maxAge=600" alt="Build Status" >
 </a>
-<a href="https://codeclimate.com/github/thinktopography/redux-rubberstamp">
-  <img src="https://img.shields.io/codeclimate/github/thinktopography/redux-rubberstamp.svg?maxAge=600" alt="Code Climate" />
+<a href="https://codeclimate.com/github/mahaplatform/redux-rubberstamp">
+  <img src="https://img.shields.io/codeclimate/github/mahaplatform/redux-rubberstamp.svg?maxAge=600" alt="Code Climate" />
 </a>
-<a href="https://codeclimate.com/github/thinktopography/redux-rubberstamp/coverage">
-  <img src="https://img.shields.io/codeclimate/coverage/github/thinktopography/redux-rubberstamp.svg?maxAge=600" alt="Code Coverage" />
+<a href="https://codeclimate.com/github/mahaplatform/redux-rubberstamp/coverage">
+  <img src="https://img.shields.io/codeclimate/coverage/github/mahaplatform/redux-rubberstamp.svg?maxAge=600" alt="Code Coverage" />
 </a>
 
 Pattern for hosting multiple versions of a component tree inside the main state tree

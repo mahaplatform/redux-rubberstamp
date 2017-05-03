@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/thinktopography/redux-rubberstamp.git"
+    "url": "git+https://github.com/mahaplatform/redux-rubberstamp.git"
   },
   "author": "Greg Kops <greg@thinktopography.com>",
   "maintainers": [
@@ -29,10 +29,7 @@
     "dist/"
   ],
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/thinktopography/redux-rubberstamp/issues"
-  },
-  "homepage": "https://github.com/thinktopography/redux-rubberstamp#readme",
+  "homepage": "https://github.com/mahaplatform/redux-rubberstamp#readme",
   "dependencies": {
     "lodash": "^4.17.4",
     "react-redux": "^5.0.4",
