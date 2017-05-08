@@ -122,7 +122,6 @@ var Builder = function Builder(_ref) {
   var namespace = _ref.namespace,
       component = _ref.component,
       reducer = _ref.reducer,
-      epic = _ref.epic,
       selectors = _ref.selectors,
       actions = _ref.actions,
       multiple = _ref.multiple;
@@ -144,11 +143,6 @@ var Builder = function Builder(_ref) {
     namespace: namespace,
     'function': reducer
   };
-
-  NamespacedComponent.epic = epic ? {
-    namespace: namespace,
-    'function': epic
-  } : null;
 
   return NamespacedComponent;
 };

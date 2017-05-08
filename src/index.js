@@ -74,7 +74,7 @@ const Component = (namespace, mapStateToProps, mapDispatchToProps, multiple) => 
 
 }
 
-const Builder = ({ namespace, component, reducer, epic, selectors, actions, multiple }) => {
+const Builder = ({ namespace, component, reducer, selectors, actions, multiple }) => {
 
   const mapStateToProps = state => ({
     ...state,
@@ -95,11 +95,6 @@ const Builder = ({ namespace, component, reducer, epic, selectors, actions, mult
     namespace,
     'function': reducer
   }
-
-  NamespacedComponent.epic = epic ? {
-    namespace,
-    'function': epic
-  } : null
 
   return NamespacedComponent
 

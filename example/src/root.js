@@ -1,16 +1,33 @@
 import React from 'react'
+import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
-import CreateStore from './create_store'
+import thunkMiddleware from 'redux-thunk'
+import { createLogger } from 'redux-logger'
 import reducer from './reducer'
 
 class Root extends React.Component {
 
+  constructor(props) {
+
+    super(props)
+
+    const loggerMiddleware = createLogger()
+
+    const middleware = [
+      thunkMiddleware,
+      ...(process.env.NODE_ENV !== 'production') ? [loggerMiddleware] : []
+    ]
+
+    const createStoreWithMiddleware = applyMiddleware(...middleware)(createStore)
+
+    this.store = createStoreWithMiddleware(reducer)
+
+  }
+
   render() {
-    const store = CreateStore(reducer)
-    const { children } = this.props
     return (
-      <Provider store={ store }>
-        { children }
+      <Provider store={ this.store }>
+        { this.props.children }
       </Provider>
     )
   }
