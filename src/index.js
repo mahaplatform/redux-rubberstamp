@@ -119,8 +119,16 @@ export const Singleton = (options) => {
 }
 
 export const combineReducers = (components) => {
-  return reducer(components.reduce((reducers, component) => ({
-    ...reducers,
-    [component.reducer.namespace]: component.reducer.function
-  }), {}))
+
+  return reducer(components.reduce((reducers, component) => {
+
+    if(!component.reducer || !component.reducer.namespace) return reducers
+
+    return {
+      ...reducers,
+      [component.reducer.namespace]: component.reducer.function
+    }
+
+  }, {}))
+
 }

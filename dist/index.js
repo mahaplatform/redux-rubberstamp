@@ -162,7 +162,11 @@ var Singleton = exports.Singleton = function Singleton(options) {
 };
 
 var combineReducers = exports.combineReducers = function combineReducers(components) {
+
   return (0, _reducer2.default)(components.reduce(function (reducers, component) {
+
+    if (!component.reducer || !component.reducer.namespace) return reducers;
+
     return _extends({}, reducers, _defineProperty({}, component.reducer.namespace, component.reducer.function));
   }, {}));
 };
