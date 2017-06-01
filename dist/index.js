@@ -76,16 +76,14 @@ var Component = function Component(namespace, mapStateToProps, mapDispatchToProp
           show: false
         };
         _this.cid = _lodash2.default.random(100000, 999999).toString(36);
+        _this.wrapped = (0, _reactRedux.connect)(_this._mapStateToProps, _this._mapDispatchToProps(), null, { pure: false })(WrappedComponent);
         return _this;
       }
 
       _createClass(Component, [{
         key: 'render',
         value: function render() {
-          var show = this.state.show;
-
-          var Wrapped = (0, _reactRedux.connect)(this._mapStateToProps, this._mapDispatchToProps())(WrappedComponent);
-          return show ? _react2.default.createElement(Wrapped, this.props) : null;
+          return this.state.show ? _react2.default.createElement(this.wrapped, this.props) : null;
         }
       }, {
         key: 'componentDidMount',
@@ -114,7 +112,7 @@ var Component = function Component(namespace, mapStateToProps, mapDispatchToProp
       onRemove: actions.remove
     };
 
-    return (0, _reactRedux.connect)(null, componentMapDispatchToProps)(Component);
+    return (0, _reactRedux.connect)(null, componentMapDispatchToProps, null, { pure: false })(Component);
   };
 };
 

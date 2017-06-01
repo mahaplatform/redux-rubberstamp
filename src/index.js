@@ -16,12 +16,11 @@ const Component = (namespace, mapStateToProps, mapDispatchToProps, multiple) => 
           show: false
         }
         this.cid = _.random(100000, 999999).toString(36)
+        this.wrapped = connect(this._mapStateToProps, this._mapDispatchToProps(), null, { pure: false })(WrappedComponent)
       }
 
       render() {
-        const { show } = this.state
-        const Wrapped = connect(this._mapStateToProps, this._mapDispatchToProps())(WrappedComponent)
-        return show ? <Wrapped {...this.props} /> : null
+        return this.state.show ? <this.wrapped { ...this.props } /> : null
       }
 
       componentDidMount() {
@@ -68,7 +67,7 @@ const Component = (namespace, mapStateToProps, mapDispatchToProps, multiple) => 
       onRemove: actions.remove
     }
 
-    return connect(null, componentMapDispatchToProps)(Component)
+    return connect(null, componentMapDispatchToProps, null, { pure: false })(Component)
 
   }
 
