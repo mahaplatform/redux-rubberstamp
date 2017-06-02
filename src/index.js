@@ -25,8 +25,8 @@ const Component = (namespace, mapStateToProps, mapDispatchToProps, multiple) => 
       }
 
       render() {
-        const location = this.context.router ? this.context.router.route.location : null
-        return this.state.show ? <this.wrapped location={location} { ...this.props } /> : null
+        const loc = this.context.router ? this.context.router.route.location : null
+        return this.state.show ? <this.wrapped loc={ loc } { ...this.props } /> : null
       }
 
       componentDidMount() {
@@ -36,8 +36,7 @@ const Component = (namespace, mapStateToProps, mapDispatchToProps, multiple) => 
       }
 
       componentWillUnmount() {
-        const args = multiple ? [ namespace, this.cid ] : [ namespace ]
-        this.props.onRemove(...args)
+        if(multiple) this.props.onRemove(namespace, this.cid)
       }
 
       _mapStateToProps = state => {

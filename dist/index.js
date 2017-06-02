@@ -87,9 +87,8 @@ var Component = function Component(namespace, mapStateToProps, mapDispatchToProp
       _createClass(Component, [{
         key: 'render',
         value: function render() {
-          var location = this.context.router.route.location;
-
-          return this.state.show ? _react2.default.createElement(this.wrapped, _extends({ location: location }, this.props)) : null;
+          var loc = this.context.router ? this.context.router.route.location : null;
+          return this.state.show ? _react2.default.createElement(this.wrapped, _extends({ loc: loc }, this.props)) : null;
         }
       }, {
         key: 'componentDidMount',
@@ -103,10 +102,7 @@ var Component = function Component(namespace, mapStateToProps, mapDispatchToProp
       }, {
         key: 'componentWillUnmount',
         value: function componentWillUnmount() {
-          var _props2;
-
-          var args = multiple ? [namespace, this.cid] : [namespace];
-          (_props2 = this.props).onRemove.apply(_props2, args);
+          if (multiple) this.props.onRemove(namespace, this.cid);
         }
       }]);
 
