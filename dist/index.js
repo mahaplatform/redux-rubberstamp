@@ -13,6 +13,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 var _reactRedux = require('react-redux');
 
 var _lodash = require('lodash');
@@ -76,14 +80,16 @@ var Component = function Component(namespace, mapStateToProps, mapDispatchToProp
           show: false
         };
         _this.cid = _lodash2.default.random(100000, 999999).toString(36);
-        _this.wrapped = (0, _reactRedux.connect)(_this._mapStateToProps, _this._mapDispatchToProps(), null, { pure: false })(WrappedComponent);
+        _this.wrapped = (0, _reactRedux.connect)(_this._mapStateToProps, _this._mapDispatchToProps())(WrappedComponent);
         return _this;
       }
 
       _createClass(Component, [{
         key: 'render',
         value: function render() {
-          return this.state.show ? _react2.default.createElement(this.wrapped, this.props) : null;
+          var location = this.context.router.route.location;
+
+          return this.state.show ? _react2.default.createElement(this.wrapped, _extends({ location: location }, this.props)) : null;
         }
       }, {
         key: 'componentDidMount',
@@ -106,6 +112,11 @@ var Component = function Component(namespace, mapStateToProps, mapDispatchToProp
 
       return Component;
     }(_react2.default.Component);
+
+    Component.contextTypes = {
+      router: _propTypes2.default.object
+    };
+
 
     var componentMapDispatchToProps = {
       onAdd: actions.add,

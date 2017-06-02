@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import _ from 'lodash'
 import * as actions from './actions'
@@ -10,17 +11,22 @@ const Component = (namespace, mapStateToProps, mapDispatchToProps, multiple) => 
 
     class Component extends React.Component {
 
+      static contextTypes = {
+        router: PropTypes.object
+      }
+
       constructor(props) {
         super(props)
         this.state = {
           show: false
         }
         this.cid = _.random(100000, 999999).toString(36)
-        this.wrapped = connect(this._mapStateToProps, this._mapDispatchToProps(), null, { pure: false })(WrappedComponent)
+        this.wrapped = connect(this._mapStateToProps, this._mapDispatchToProps())(WrappedComponent)
       }
 
       render() {
-        return this.state.show ? <this.wrapped { ...this.props } /> : null
+        const location = this.context.router ? this.context.router.route.location : null
+        return this.state.show ? <this.wrapped location={location} { ...this.props } /> : null
       }
 
       componentDidMount() {
