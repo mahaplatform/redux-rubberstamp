@@ -15,14 +15,14 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 var add = exports.add = function add(namespace, cid) {
   return _extends({
-    type: actionTypes.ADD,
+    type: actionTypes.ADD_COMPONENT,
     namespace: namespace
   }, cid ? { cid: cid } : {});
 };
 
 var remove = exports.remove = function remove(namespace, cid) {
   return _extends({
-    type: actionTypes.REMOVE,
+    type: actionTypes.REMOVE_COMPONENT,
     namespace: namespace
   }, cid ? { cid: cid } : {});
 };

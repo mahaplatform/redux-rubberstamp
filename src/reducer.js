@@ -5,7 +5,7 @@ export default (reducers) => {
 
   return (state = {}, action) => {
 
-    if(action.type === actionTypes.ADD) {
+    if(action.type === actionTypes.ADD_COMPONENT) {
 
       const path = action.cid ? `${action.namespace}.${action.cid}` : action.namespace
 
@@ -13,7 +13,7 @@ export default (reducers) => {
         ..._.set(state, path, reducers[action.namespace](undefined, action))
       }
 
-    } else if(action.type === actionTypes.REMOVE) {
+    } else if(action.type === actionTypes.REMOVE_COMPONENT) {
 
       const path = action.cid ? `${action.namespace}.${action.cid}` : action.namespace
 

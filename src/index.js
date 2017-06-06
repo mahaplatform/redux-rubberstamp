@@ -12,7 +12,8 @@ const Component = (namespace, mapStateToProps, mapDispatchToProps, multiple) => 
     class Component extends React.Component {
 
       static contextTypes = {
-        router: PropTypes.object
+        router: PropTypes.object,
+        admin: PropTypes.object
       }
 
       constructor(props) {
@@ -25,8 +26,8 @@ const Component = (namespace, mapStateToProps, mapDispatchToProps, multiple) => 
       }
 
       render() {
-        const loc = this.context.router ? this.context.router.route.location : null
-        return this.state.show ? <this.wrapped loc={ loc } { ...this.props } /> : null
+        const con = this.context
+        return this.state.show ? <this.wrapped con={ con } { ...this.props } /> : null
       }
 
       componentDidMount() {

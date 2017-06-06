@@ -31,9 +31,10 @@
   "license": "ISC",
   "homepage": "https://github.com/mahaplatform/redux-rubberstamp#readme",
   "dependencies": {
+    "json-hash": "^1.2.0",
     "lodash": "^4.17.4",
-    "react-redux": "^5.0.5",
     "react": "^15.5.4",
+    "react-redux": "^5.0.5",
     "redux": "^3.6.0"
   },
   "devDependencies": {

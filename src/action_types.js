@@ -1,4 +1,2 @@
-// @flow
-
-export const ADD: string = 'platform.component/ADD'
-export const REMOVE: string = 'platform.component/REMOVE'
+export const ADD_COMPONENT = 'ADD_COMPONENT'
+export const REMOVE_COMPONENT = 'REMOVE_COMPONENT'

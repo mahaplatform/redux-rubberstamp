@@ -87,8 +87,8 @@ var Component = function Component(namespace, mapStateToProps, mapDispatchToProp
       _createClass(Component, [{
         key: 'render',
         value: function render() {
-          var loc = this.context.router ? this.context.router.route.location : null;
-          return this.state.show ? _react2.default.createElement(this.wrapped, _extends({ loc: loc }, this.props)) : null;
+          var con = this.context;
+          return this.state.show ? _react2.default.createElement(this.wrapped, _extends({ con: con }, this.props)) : null;
         }
       }, {
         key: 'componentDidMount',
@@ -110,7 +110,8 @@ var Component = function Component(namespace, mapStateToProps, mapDispatchToProp
     }(_react2.default.Component);
 
     Component.contextTypes = {
-      router: _propTypes2.default.object
+      router: _propTypes2.default.object,
+      admin: _propTypes2.default.object
     };
 
 

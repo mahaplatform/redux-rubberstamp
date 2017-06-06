@@ -3,5 +3,5 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var ADD = exports.ADD = 'platform.component/ADD';
-var REMOVE = exports.REMOVE = 'platform.component/REMOVE';
+var ADD_COMPONENT = exports.ADD_COMPONENT = 'ADD_COMPONENT';
+var REMOVE_COMPONENT = exports.REMOVE_COMPONENT = 'REMOVE_COMPONENT';
