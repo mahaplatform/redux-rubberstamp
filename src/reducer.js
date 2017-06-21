@@ -9,9 +9,7 @@ export default (reducers) => {
 
       const path = action.cid ? `${action.namespace}.${action.cid}` : action.namespace
 
-      return {
-        ..._.set(state, path, reducers[action.namespace](undefined, action))
-      }
+      return set(state, path.split('.'), reducers[action.namespace](undefined, action))
 
     } else if(action.type === actionTypes.REMOVE_COMPONENT) {
 
@@ -36,12 +34,25 @@ export default (reducers) => {
         return state
       }
 
-      return {
-        ..._.set(state, path, reducers[namespace](_.get(state, path), caction))
-      }
+      return set(state, path.split('.'), reducers[namespace](_.get(state, path), caction))
 
     }
 
+  }
+
+}
+
+const set = (state, parts, value) => {
+
+  const key = parts.shift()
+
+  if(key === undefined) return value
+
+  const nextstate = state[key] || {}
+
+  return {
+    ...state,
+    [key]: set(nextstate, parts, value)
   }
 
 }

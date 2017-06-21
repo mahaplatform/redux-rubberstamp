@@ -20,6 +20,8 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 exports.default = function (reducers) {
 
   return function () {
@@ -31,7 +33,7 @@ exports.default = function (reducers) {
 
       var path = action.cid ? action.namespace + '.' + action.cid : action.namespace;
 
-      return _extends({}, _lodash2.default.set(state, path, reducers[action.namespace](undefined, action)));
+      return set(state, path.split('.'), reducers[action.namespace](undefined, action));
     } else if (action.type === actionTypes.REMOVE_COMPONENT) {
 
       var _path = action.cid ? action.namespace + '.' + action.cid : action.namespace;
@@ -53,7 +55,18 @@ exports.default = function (reducers) {
         return state;
       }
 
-      return _extends({}, _lodash2.default.set(state, _path2, reducers[namespace](_lodash2.default.get(state, _path2), caction)));
+      return set(state, _path2.split('.'), reducers[namespace](_lodash2.default.get(state, _path2), caction));
     }
   };
+};
+
+var set = function set(state, parts, value) {
+
+  var key = parts.shift();
+
+  if (key === undefined) return value;
+
+  var nextstate = state[key] || {};
+
+  return _extends({}, state, _defineProperty({}, key, set(nextstate, parts, value)));
 };
