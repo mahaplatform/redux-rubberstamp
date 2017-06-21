@@ -1,6 +1,6 @@
 {
   "name": "redux-rubberstamp",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Pattern for hosting multiple versions of a component tree inside the main state tree",
   "main": "dist/index.js",
   "scripts": {
