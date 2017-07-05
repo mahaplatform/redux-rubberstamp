@@ -28,7 +28,7 @@ describe('reducer', () => {
     it('can add component', () => {
 
         const action = {
-          type: actionTypes.ADD,
+          type: actionTypes.ADD_COMPONENT,
           cid: 'a1b2',
           namespace: 'one.two.three'
         }
@@ -44,7 +44,7 @@ describe('reducer', () => {
         const state1 = { one: { two: { three: { a1b2: { foo: 'bar' } } } } }
 
         const action = {
-          type: actionTypes.REMOVE,
+          type: actionTypes.REMOVE_COMPONENT,
           cid: 'a1b2',
           namespace: 'one.two.three'
         }
@@ -57,9 +57,9 @@ describe('reducer', () => {
 
     it('can mutate component', () => {
 
-      const state1 = combined(undefined, { type: actionTypes.ADD, namespace: 'one.two.three', cid: 'a1b2' })
+      const state1 = combined(undefined, { type: actionTypes.ADD_COMPONENT, namespace: 'one.two.three', cid: 'a1b2' })
 
-      const state2 = combined(state1, { type: actionTypes.ADD, namespace: 'one.two.three', cid: 'bz45' })
+      const state2 = combined(state1, { type: actionTypes.ADD_COMPONENT, namespace: 'one.two.three', cid: 'bz45' })
 
       const action = {
         type: 'one.two.three/change',
@@ -80,7 +80,7 @@ describe('reducer', () => {
       it('can add component', () => {
 
           const action = {
-            type: actionTypes.ADD,
+            type: actionTypes.ADD_COMPONENT,
             namespace: 'one.two.three'
           }
 
@@ -95,7 +95,7 @@ describe('reducer', () => {
           const state1 = { one: { two: { three: { foo: 'bar' } } } }
 
           const action = {
-            type: actionTypes.REMOVE,
+            type: actionTypes.REMOVE_COMPONENT,
             namespace: 'one.two.three'
           }
 
@@ -107,7 +107,7 @@ describe('reducer', () => {
 
       it('can mutate component', () => {
 
-        const state1 = combined(undefined, { type: actionTypes.ADD, namespace: 'one.two.three' })
+        const state1 = combined(undefined, { type: actionTypes.ADD_COMPONENT, namespace: 'one.two.three' })
 
         const action = {
           type: 'one.two.three/change',

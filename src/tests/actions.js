@@ -7,7 +7,7 @@ describe('actions', () => {
   it('adds component without cid', () => {
 
     const expected = {
-      type: actionTypes.ADD,
+      type: actionTypes.ADD_COMPONENT,
       namespace: 'one.two.three'
     }
 
@@ -18,7 +18,7 @@ describe('actions', () => {
   it('adds component with cid', () => {
 
     const expected = {
-      type: actionTypes.ADD,
+      type: actionTypes.ADD_COMPONENT,
       namespace: 'one.two.three',
       cid: 'ay4n'
     }
@@ -30,7 +30,7 @@ describe('actions', () => {
   it('removes component without cid', () => {
 
     const expected = {
-      type: actionTypes.REMOVE,
+      type: actionTypes.REMOVE_COMPONENT,
       namespace: 'one.two.three'
     }
 
@@ -41,7 +41,7 @@ describe('actions', () => {
   it('removes component with cid', () => {
 
     const expected = {
-      type: actionTypes.REMOVE,
+      type: actionTypes.REMOVE_COMPONENT,
       namespace: 'one.two.three',
       cid: 'ay4n'
     }
