@@ -1,4 +1,5 @@
-# redux-rubberstamp
+<img src="https://raw.githubusercontent.com/mahaplatform/redux-rubberstamp/master/docs/logo.png" title="Redux Rubberstamp" alt="Redux Rubberstamp"/>
+
 <a href="https://circleci.com/gh/mahaplatform/redux-rubberstamp">
   <img src="https://img.shields.io/circleci/project/mahaplatform/redux-rubberstamp.svg?maxAge=600" alt="Build Status" >
 </a>
