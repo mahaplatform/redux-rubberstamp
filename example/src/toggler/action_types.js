@@ -1,3 +1,1 @@
-// @flow
-
-export const TOGGLE: string = 'TOGGLE'
+export const TOGGLE = 'TOGGLE'
