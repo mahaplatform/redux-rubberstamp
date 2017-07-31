@@ -14,7 +14,7 @@ module.exports = (env) => ({
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
       minChunks: (module) => {
-        return module.context && module.context.indexOf('node_modules') !== -1;
+        return module.context && module.context.indexOf('node_modules') !== -1
       }
     }),
     new HtmlWebpackPlugin({
@@ -23,6 +23,12 @@ module.exports = (env) => ({
       title: 'redux-rubberstamp'
     })
   ],
+  resolve: {
+    modules: [
+      'node_modules',
+      path.resolve('node_modules')
+    ]
+  },
   module: {
     rules: [
       {
