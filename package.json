@@ -34,7 +34,7 @@
     "react": "^15.x || ^16.x",
     "react-redux": "^5.x",
     "redux": "^3.x",
-    "reselet": "^2.x || ^3.x"
+    "reselect": "^2.x || ^3.x"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
