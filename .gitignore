@@ -1,4 +1,4 @@
-/node_modules
+node_modules
 !/dist/js/.gitkeep
 npm-debug.log
 .nyc_output
