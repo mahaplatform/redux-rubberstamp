@@ -40,11 +40,11 @@ const Component = (namespace, mapStateToProps, mapDispatchToProps, multiple) => 
         if(multiple) this.props.onRemove(namespace, this.cid)
       }
 
-      _mapStateToProps = state => {
+      _mapStateToProps = (state, props) => {
         const path = multiple ? `${namespace}.${this.cid}` : namespace
         const cstate = _.get(state, path)
         return {
-          ...cstate ? mapStateToProps(cstate) : {}
+          ...cstate ? mapStateToProps(cstate, props) : {}
         }
       }
 
@@ -81,11 +81,11 @@ const Component = (namespace, mapStateToProps, mapDispatchToProps, multiple) => 
 
 const Builder = ({ namespace, component, reducer, selectors, actions, multiple }) => {
 
-  const mapStateToProps = state => ({
+  const mapStateToProps = (state, props) => ({
     ...state,
     ...selectors ? Object.keys(selectors).reduce((selecedState, key) => ({
       ...selecedState,
-      [key]: selectors[key](state)
+      [key]: selectors[key](state, props)
     }), {}) : {}
   })
 

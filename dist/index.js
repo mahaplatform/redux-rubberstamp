@@ -56,25 +56,7 @@ var Component = function Component(namespace, mapStateToProps, mapDispatchToProp
 
         var _this = _possibleConstructorReturn(this, (Component.__proto__ || Object.getPrototypeOf(Component)).call(this, props));
 
-        _this._mapStateToProps = function (state) {
-          var path = multiple ? namespace + '.' + _this.cid : namespace;
-          var cstate = _lodash2.default.get(state, path);
-          return _extends({}, cstate ? mapStateToProps(cstate) : {});
-        };
-
-        _this._mapDispatchToProps = function () {
-          var cid = _this.cid;
-          return Object.keys(mapDispatchToProps).reduce(function (mapped, key) {
-            return _extends({}, mapped, _defineProperty({}, key, function () {
-
-              var action = mapDispatchToProps[key].apply(mapDispatchToProps, _toConsumableArray(Array.prototype.slice.call(arguments)));
-
-              return _extends({}, action, {
-                type: namespace + '/' + action.type
-              }, multiple ? { cid: cid } : {});
-            }));
-          }, {});
-        };
+        _initialiseProps.call(_this);
 
         _this.state = {
           show: false
@@ -114,6 +96,29 @@ var Component = function Component(namespace, mapStateToProps, mapDispatchToProp
       admin: _propTypes2.default.object
     };
 
+    var _initialiseProps = function _initialiseProps() {
+      var _this2 = this;
+
+      this._mapStateToProps = function (state, props) {
+        var path = multiple ? namespace + '.' + _this2.cid : namespace;
+        var cstate = _lodash2.default.get(state, path);
+        return _extends({}, cstate ? mapStateToProps(cstate, props) : {});
+      };
+
+      this._mapDispatchToProps = function () {
+        var cid = _this2.cid;
+        return Object.keys(mapDispatchToProps).reduce(function (mapped, key) {
+          return _extends({}, mapped, _defineProperty({}, key, function () {
+
+            var action = mapDispatchToProps[key].apply(mapDispatchToProps, _toConsumableArray(Array.prototype.slice.call(arguments)));
+
+            return _extends({}, action, {
+              type: namespace + '/' + action.type
+            }, multiple ? { cid: cid } : {});
+          }));
+        }, {});
+      };
+    };
 
     var componentMapDispatchToProps = {
       onAdd: actions.add,
@@ -133,9 +138,9 @@ var Builder = function Builder(_ref) {
       multiple = _ref.multiple;
 
 
-  var mapStateToProps = function mapStateToProps(state) {
+  var mapStateToProps = function mapStateToProps(state, props) {
     return _extends({}, state, selectors ? Object.keys(selectors).reduce(function (selecedState, key) {
-      return _extends({}, selecedState, _defineProperty({}, key, selectors[key](state)));
+      return _extends({}, selecedState, _defineProperty({}, key, selectors[key](state, props)));
     }, {}) : {});
   };
 
