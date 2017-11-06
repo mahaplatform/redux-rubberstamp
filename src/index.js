@@ -44,6 +44,7 @@ const Component = (namespace, mapStateToProps, mapDispatchToProps, multiple) => 
         const path = multiple ? `${namespace}.${this.cid}` : namespace
         const cstate = _.get(state, path)
         return {
+          cid: this.cid,
           ...cstate ? mapStateToProps(cstate, props) : {}
         }
       }

@@ -102,7 +102,9 @@ var Component = function Component(namespace, mapStateToProps, mapDispatchToProp
       this._mapStateToProps = function (state, props) {
         var path = multiple ? namespace + '.' + _this2.cid : namespace;
         var cstate = _lodash2.default.get(state, path);
-        return _extends({}, cstate ? mapStateToProps(cstate, props) : {});
+        return _extends({
+          cid: _this2.cid
+        }, cstate ? mapStateToProps(cstate, props) : {});
       };
 
       this._mapDispatchToProps = function () {
