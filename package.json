@@ -23,7 +23,7 @@
     "dist/"
   ],
   "peerDependencies": {
-    "react": "^15.x || ^16.x",
+    "react": "^16.x",
     "react-redux": "^5.x",
     "redux": "^3.x",
     "reselect": "^2.x || ^3.x"
@@ -40,7 +40,7 @@
     "eslint": "^4.3.0",
     "mocha": "^3.2.0",
     "nyc": "^11.1.0",
-    "react": "^15.6.1",
+    "react": "^16.0.0",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
     "webpack": "^2.4.1"
