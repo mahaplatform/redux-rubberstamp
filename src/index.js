@@ -1,9 +1,9 @@
-import React from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import _ from 'lodash'
 import * as actions from './actions'
+import PropTypes from 'prop-types'
 import reducer from './reducer'
+import React from 'react'
+import _ from 'lodash'
 
 const Component = (namespace, mapStateToProps, mapDispatchToProps, multiple) => {
 
@@ -86,7 +86,9 @@ const Builder = ({ namespace, component, reducer, selectors, actions, multiple }
     ...state,
     ...selectors ? Object.keys(selectors).reduce((selecedState, key) => ({
       ...selecedState,
-      [key]: selectors[key](state, props)
+      ..._.isFunction(selectors[key]) ? {
+        [key]: selectors[key](state, props)
+      } : {}
     }), {}) : {}
   })
 
