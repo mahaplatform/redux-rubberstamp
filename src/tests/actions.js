@@ -1,13 +1,12 @@
 import { expect } from 'chai'
 import * as actions from '../actions'
-import * as actionTypes from '../action_types'
 
 describe('actions', () => {
 
   it('adds component without cid', () => {
 
     const expected = {
-      type: actionTypes.ADD_COMPONENT,
+      type: 'ADD_COMPONENT',
       namespace: 'one.two.three'
     }
 
@@ -18,7 +17,7 @@ describe('actions', () => {
   it('adds component with cid', () => {
 
     const expected = {
-      type: actionTypes.ADD_COMPONENT,
+      type: 'ADD_COMPONENT',
       namespace: 'one.two.three',
       cid: 'ay4n'
     }
@@ -30,7 +29,7 @@ describe('actions', () => {
   it('removes component without cid', () => {
 
     const expected = {
-      type: actionTypes.REMOVE_COMPONENT,
+      type: 'REMOVE_COMPONENT',
       namespace: 'one.two.three'
     }
 
@@ -41,7 +40,7 @@ describe('actions', () => {
   it('removes component with cid', () => {
 
     const expected = {
-      type: actionTypes.REMOVE_COMPONENT,
+      type: 'REMOVE_COMPONENT',
       namespace: 'one.two.three',
       cid: 'ay4n'
     }

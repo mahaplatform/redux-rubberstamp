@@ -1,17 +1,16 @@
 import _ from 'lodash'
-import * as actionTypes from './action_types'
 
 export default (reducers) => {
 
   return (state = {}, action) => {
 
-    if(action.type === actionTypes.ADD_COMPONENT) {
+    if(action.type === 'ADD_COMPONENT') {
 
       const path = action.cid ? `${action.namespace}.${action.cid}` : action.namespace
 
       return set(state, path.split('.'), reducers[action.namespace](undefined, action))
 
-    } else if(action.type === actionTypes.REMOVE_COMPONENT) {
+    } else if(action.type === 'REMOVE_COMPONENT') {
 
       const path = action.cid ? `${action.namespace}.${action.cid}` : action.namespace
 

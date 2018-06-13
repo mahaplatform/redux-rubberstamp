@@ -12,12 +12,6 @@ var _lodash = require('lodash');
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
-var _action_types = require('./action_types');
-
-var actionTypes = _interopRequireWildcard(_action_types);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -29,12 +23,12 @@ exports.default = function (reducers) {
     var action = arguments[1];
 
 
-    if (action.type === actionTypes.ADD_COMPONENT) {
+    if (action.type === 'ADD_COMPONENT') {
 
       var path = action.cid ? action.namespace + '.' + action.cid : action.namespace;
 
       return set(state, path.split('.'), reducers[action.namespace](undefined, action));
-    } else if (action.type === actionTypes.REMOVE_COMPONENT) {
+    } else if (action.type === 'REMOVE_COMPONENT') {
 
       var _path = action.cid ? action.namespace + '.' + action.cid : action.namespace;
 
