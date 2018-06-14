@@ -92,8 +92,7 @@ var Component = function Component(namespace, mapStateToProps, mapDispatchToProp
     }(_react2.default.Component);
 
     Component.contextTypes = {
-      router: _propTypes2.default.object,
-      admin: _propTypes2.default.object
+      router: _propTypes2.default.object
     };
 
     var _initialiseProps = function _initialiseProps() {

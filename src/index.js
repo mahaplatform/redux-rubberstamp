@@ -12,8 +12,7 @@ const Component = (namespace, mapStateToProps, mapDispatchToProps, multiple) => 
     class Component extends React.Component {
 
       static contextTypes = {
-        router: PropTypes.object,
-        admin: PropTypes.object
+        router: PropTypes.object
       }
 
       constructor(props) {
