@@ -1,6 +1,6 @@
 {
   "name": "redux-rubberstamp",
-  "version": "1.11.0",
+  "version": "1.12.0",
   "description": "Pattern for hosting multiple versions of a component tree inside the main state tree",
   "license": "ISC",
   "author": "Greg Kops <greg@thinktopography.com>",

@@ -9,10 +9,16 @@ const Component = (namespace, mapStateToProps, mapDispatchToProps, multiple) => 
 
   return (WrappedComponent) => {
 
-    class Component extends React.Component {
+    class Rubberstamp extends React.Component {
 
       static contextTypes = {
         router: PropTypes.object
+      }
+
+      static propTypes = {
+        children: PropTypes.any,
+        onAdd: PropTypes.func,
+        onRemove: PropTypes.func
       }
 
       constructor(props) {
@@ -25,8 +31,7 @@ const Component = (namespace, mapStateToProps, mapDispatchToProps, multiple) => 
       }
 
       render() {
-        const con = this.context
-        return this.state.show ? <this.wrapped con={ con } { ...this.props } /> : null
+        return this.state.show ? <this.wrapped { ...this._getWrapped() } /> : null
       }
 
       componentDidMount() {
@@ -37,6 +42,14 @@ const Component = (namespace, mapStateToProps, mapDispatchToProps, multiple) => 
 
       componentWillUnmount() {
         if(multiple) this.props.onRemove(namespace, this.cid)
+      }
+
+      _getWrapped() {
+        const { router } = this.context
+        return {
+          ..._.omit(this.props, ['onAdd','onRemove']),
+          con: router
+        }
       }
 
       _mapStateToProps = (state, props) => {
@@ -51,18 +64,18 @@ const Component = (namespace, mapStateToProps, mapDispatchToProps, multiple) => 
       _mapDispatchToProps = () => {
         const cid = this.cid
         return Object.keys(mapDispatchToProps).reduce((mapped, key) => ({
-         ...mapped,
-         [key]: function() {
+          ...mapped,
+          [key]: function() {
 
-           const action = mapDispatchToProps[key](...Array.prototype.slice.call(arguments))
+            const action = mapDispatchToProps[key](...Array.prototype.slice.call(arguments))
 
-           return {
-             ...action,
-             type: `${namespace}/${action.type}`,
-             ...(multiple) ? { cid } : {}
-           }
+            return {
+              ...action,
+              type: `${namespace}/${action.type}`,
+              ...(multiple) ? { cid } : {}
+            }
 
-         }
+          }
         }), {})
       }
 
@@ -73,7 +86,7 @@ const Component = (namespace, mapStateToProps, mapDispatchToProps, multiple) => 
       onRemove: actions.remove
     }
 
-    return connect(null, componentMapDispatchToProps, null, { pure: false })(Component)
+    return connect(null, componentMapDispatchToProps, null, { pure: false })(Rubberstamp)
 
   }
 
@@ -107,35 +120,23 @@ const Builder = ({ namespace, component, reducer, selectors, actions, multiple }
 
 }
 
-export const Factory = (options) => {
+export const Factory = (options) => Builder({
+  ...options,
+  multiple: true
+})
 
-  return Builder({
-    ...options,
-    multiple: true
-  })
+export const Singleton = (options) => Builder({
+  ...options,
+  multiple: false
+})
 
-}
+export const combineReducers = (components) => reducer(components.reduce((reducers, component) => {
 
-export const Singleton = (options) => {
+  if(!component.reducer || !component.reducer.namespace) return reducers
 
-  return Builder({
-    ...options,
-    multiple: false
-  })
+  return {
+    ...reducers,
+    [component.reducer.namespace]: component.reducer.function
+  }
 
-}
-
-export const combineReducers = (components) => {
-
-  return reducer(components.reduce((reducers, component) => {
-
-    if(!component.reducer || !component.reducer.namespace) return reducers
-
-    return {
-      ...reducers,
-      [component.reducer.namespace]: component.reducer.function
-    }
-
-  }, {}))
-
-}
+}, {}))

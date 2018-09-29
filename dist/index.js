@@ -48,13 +48,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Component = function Component(namespace, mapStateToProps, mapDispatchToProps, multiple) {
 
   return function (WrappedComponent) {
-    var Component = function (_React$Component) {
-      _inherits(Component, _React$Component);
+    var Rubberstamp = function (_React$Component) {
+      _inherits(Rubberstamp, _React$Component);
 
-      function Component(props) {
-        _classCallCheck(this, Component);
+      function Rubberstamp(props) {
+        _classCallCheck(this, Rubberstamp);
 
-        var _this = _possibleConstructorReturn(this, (Component.__proto__ || Object.getPrototypeOf(Component)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (Rubberstamp.__proto__ || Object.getPrototypeOf(Rubberstamp)).call(this, props));
 
         _initialiseProps.call(_this);
 
@@ -66,11 +66,10 @@ var Component = function Component(namespace, mapStateToProps, mapDispatchToProp
         return _this;
       }
 
-      _createClass(Component, [{
+      _createClass(Rubberstamp, [{
         key: 'render',
         value: function render() {
-          var con = this.context;
-          return this.state.show ? _react2.default.createElement(this.wrapped, _extends({ con: con }, this.props)) : null;
+          return this.state.show ? _react2.default.createElement(this.wrapped, this._getWrapped()) : null;
         }
       }, {
         key: 'componentDidMount',
@@ -86,13 +85,27 @@ var Component = function Component(namespace, mapStateToProps, mapDispatchToProp
         value: function componentWillUnmount() {
           if (multiple) this.props.onRemove(namespace, this.cid);
         }
+      }, {
+        key: '_getWrapped',
+        value: function _getWrapped() {
+          var router = this.context.router;
+
+          return _extends({}, _lodash2.default.omit(this.props, ['onAdd', 'onRemove']), {
+            con: router
+          });
+        }
       }]);
 
-      return Component;
+      return Rubberstamp;
     }(_react2.default.Component);
 
-    Component.contextTypes = {
+    Rubberstamp.contextTypes = {
       router: _propTypes2.default.object
+    };
+    Rubberstamp.propTypes = {
+      children: _propTypes2.default.any,
+      onAdd: _propTypes2.default.func,
+      onRemove: _propTypes2.default.func
     };
 
     var _initialiseProps = function _initialiseProps() {
@@ -126,7 +139,7 @@ var Component = function Component(namespace, mapStateToProps, mapDispatchToProp
       onRemove: actions.remove
     };
 
-    return (0, _reactRedux.connect)(null, componentMapDispatchToProps, null, { pure: false })(Component);
+    return (0, _reactRedux.connect)(null, componentMapDispatchToProps, null, { pure: false })(Rubberstamp);
   };
 };
 
@@ -160,21 +173,18 @@ var Builder = function Builder(_ref) {
 };
 
 var Factory = exports.Factory = function Factory(options) {
-
   return Builder(_extends({}, options, {
     multiple: true
   }));
 };
 
 var Singleton = exports.Singleton = function Singleton(options) {
-
   return Builder(_extends({}, options, {
     multiple: false
   }));
 };
 
 var combineReducers = exports.combineReducers = function combineReducers(components) {
-
   return (0, _reducer2.default)(components.reduce(function (reducers, component) {
 
     if (!component.reducer || !component.reducer.namespace) return reducers;
