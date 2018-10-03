@@ -4,7 +4,7 @@ import toggler from './toggler'
 import * as actions from './actions'
 
 export default Singleton({
-  namespace: 'platform.components.toggler',
+  namespace: 'toggler',
   component: toggler,
   reducer,
   actions

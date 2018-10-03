@@ -1,12 +1,5 @@
-import React from 'react'
 import ReactDOM from 'react-dom'
-import Root from './root'
-import Canvas from './canvas'
+import React from 'react'
+import App from './app'
 
-const main = (
-  <Root>
-    <Canvas />
-  </Root>
-)
-
-ReactDOM.render(main, document.getElementById('main'))
+ReactDOM.render(<App />, document.getElementById('main'))
