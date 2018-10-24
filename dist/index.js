@@ -90,7 +90,7 @@ var Component = function Component(namespace, mapStateToProps, mapDispatchToProp
         value: function _getWrapped() {
           var router = this.context.router;
 
-          return _extends({}, _lodash2.default.omit(this.props, ['onAdd', 'onRemove']), {
+          return _extends({}, _lodash2.default.omit(this.props, ['onAddComponent', 'onRemoveComponent']), {
             con: router
           });
         }
@@ -135,8 +135,8 @@ var Component = function Component(namespace, mapStateToProps, mapDispatchToProp
     };
 
     var componentMapDispatchToProps = {
-      onAdd: actions.add,
-      onRemove: actions.remove
+      onAddComponent: actions.addComponent,
+      onRemoveComponent: actions.removeComponent
     };
 
     return (0, _reactRedux.connect)(null, componentMapDispatchToProps, null, { pure: false })(Rubberstamp);

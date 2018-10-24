@@ -47,7 +47,7 @@ const Component = (namespace, mapStateToProps, mapDispatchToProps, multiple) => 
       _getWrapped() {
         const { router } = this.context
         return {
-          ..._.omit(this.props, ['onAdd','onRemove']),
+          ..._.omit(this.props, ['onAddComponent','onRemoveComponent']),
           con: router
         }
       }
@@ -82,8 +82,8 @@ const Component = (namespace, mapStateToProps, mapDispatchToProps, multiple) => 
     }
 
     const componentMapDispatchToProps = {
-      onAdd: actions.add,
-      onRemove: actions.remove
+      onAddComponent: actions.addComponent,
+      onRemoveComponent: actions.removeComponent
     }
 
     return connect(null, componentMapDispatchToProps, null, { pure: false })(Rubberstamp)
