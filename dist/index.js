@@ -77,13 +77,13 @@ var Component = function Component(namespace, mapStateToProps, mapDispatchToProp
           var _props;
 
           var args = multiple ? [namespace, this.cid] : [namespace];
-          (_props = this.props).onAdd.apply(_props, args);
+          (_props = this.props).onAddComponent.apply(_props, args);
           this.setState({ show: true });
         }
       }, {
         key: 'componentWillUnmount',
         value: function componentWillUnmount() {
-          if (multiple) this.props.onRemove(namespace, this.cid);
+          if (multiple) this.props.onRemoveComponent(namespace, this.cid);
         }
       }, {
         key: '_getWrapped',
@@ -104,8 +104,8 @@ var Component = function Component(namespace, mapStateToProps, mapDispatchToProp
     };
     Rubberstamp.propTypes = {
       children: _propTypes2.default.any,
-      onAdd: _propTypes2.default.func,
-      onRemove: _propTypes2.default.func
+      onAddComponent: _propTypes2.default.func,
+      onRemoveComponent: _propTypes2.default.func
     };
 
     var _initialiseProps = function _initialiseProps() {

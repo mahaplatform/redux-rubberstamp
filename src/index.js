@@ -17,8 +17,8 @@ const Component = (namespace, mapStateToProps, mapDispatchToProps, multiple) => 
 
       static propTypes = {
         children: PropTypes.any,
-        onAdd: PropTypes.func,
-        onRemove: PropTypes.func
+        onAddComponent: PropTypes.func,
+        onRemoveComponent: PropTypes.func
       }
 
       constructor(props) {
@@ -36,12 +36,12 @@ const Component = (namespace, mapStateToProps, mapDispatchToProps, multiple) => 
 
       componentDidMount() {
         const args = multiple ? [ namespace, this.cid ] : [ namespace ]
-        this.props.onAdd(...args)
+        this.props.onAddComponent(...args)
         this.setState({ show: true })
       }
 
       componentWillUnmount() {
-        if(multiple) this.props.onRemove(namespace, this.cid)
+        if(multiple) this.props.onRemoveComponent(namespace, this.cid)
       }
 
       _getWrapped() {
