@@ -64,6 +64,7 @@ const Rubberstamped = (namespace, mapStateToProps, mapDispatchToProps, multiple)
       componentWillUnmount() {
         const { cid } = this.state
         const args = multiple ? [namespace, cid] : [namespace]
+        this.setState({ show: false })
         this.props.onRemoveComponent(...args)
       }
 

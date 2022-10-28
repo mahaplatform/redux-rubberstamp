@@ -320,6 +320,9 @@ var Rubberstamped = function(namespace, mapStateToProps, mapDispatchToProps, mul
                         ] : [
                             namespace
                         ];
+                        this.setState({
+                            show: false
+                        });
                         (_props = this.props).onRemoveComponent.apply(_props, _toConsumableArray(args));
                     }
                 },
