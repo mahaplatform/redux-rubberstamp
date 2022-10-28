@@ -245,8 +245,30 @@ function _createSuper(Derived) {
         return _possibleConstructorReturn(this, result);
     };
 }
-var Component = function(namespace, mapStateToProps, mapDispatchToProps, multiple) {
-    return function(WrappedComponent) {
+var Rubberstamped = function(namespace, mapStateToProps, mapDispatchToProps, multiple) {
+    return function(Component) {
+        var _mapStateToProps = function(state, props) {
+            var cid = props.cid;
+            var path = multiple ? "".concat(namespace, ".").concat(cid) : namespace;
+            var cstate = _lodash.default.get(state, path);
+            return mapStateToProps(cstate, props);
+        };
+        var _mapDispatchToProps = function(dispatch, props) {
+            var cid = props.cid;
+            return Object.keys(mapDispatchToProps).reduce(function(mapped, key) {
+                return _objectSpreadProps(_objectSpread({}, mapped), _defineProperty({}, key, function() {
+                    var _mapDispatchToProps;
+                    var args = Array.prototype.slice.call(arguments);
+                    var action = (_mapDispatchToProps = mapDispatchToProps)[key].apply(_mapDispatchToProps, _toConsumableArray(args));
+                    return dispatch(_objectSpread(_objectSpreadProps(_objectSpread({}, action), {
+                        type: "".concat(namespace, "/").concat(action.type)
+                    }), multiple ? {
+                        cid: cid
+                    } : {}));
+                }));
+            }, {});
+        };
+        var WrappedComponent = (0, _reactRedux.connect)(_mapStateToProps, _mapDispatchToProps)(Component);
         var _Component;
         var Rubberstamp = /*#__PURE__*/ function(_superClass) {
             "use strict";
@@ -256,48 +278,28 @@ var Component = function(namespace, mapStateToProps, mapDispatchToProps, multipl
                 _classCallCheck(this, Rubberstamp);
                 var _this;
                 _this = _super.call(this, props);
-                _defineProperty(_assertThisInitialized(_this), "_mapStateToProps", function(state, props) {
-                    var path = multiple ? "".concat(namespace, ".").concat(_this.cid) : namespace;
-                    var cstate = _lodash.default.get(state, path);
-                    return _objectSpread({
-                        cid: _this.cid
-                    }, cstate ? mapStateToProps(cstate, props) : {});
-                });
-                _defineProperty(_assertThisInitialized(_this), "_mapDispatchToProps", function() {
-                    var cid = _this.cid;
-                    return Object.keys(mapDispatchToProps).reduce(function(mapped, key) {
-                        return _objectSpreadProps(_objectSpread({}, mapped), _defineProperty({}, key, function() {
-                            var _mapDispatchToProps;
-                            var action = (_mapDispatchToProps = mapDispatchToProps)[key].apply(_mapDispatchToProps, _toConsumableArray(Array.prototype.slice.call(arguments)));
-                            return _objectSpread(_objectSpreadProps(_objectSpread({}, action), {
-                                type: "".concat(namespace, "/").concat(action.type)
-                            }), multiple ? {
-                                cid: cid
-                            } : {});
-                        }));
-                    }, {});
-                });
                 _this.state = {
+                    cid: _lodash.default.random(100000, 999999).toString(36),
                     show: false
                 };
-                _this.cid = _lodash.default.random(100000, 999999).toString(36);
-                _this.wrapped = (0, _reactRedux.connect)(_this._mapStateToProps, _this._mapDispatchToProps())(WrappedComponent);
                 return _this;
             }
             _createClass(Rubberstamp, [
                 {
                     key: "render",
                     value: function render() {
-                        return this.state.show ? /*#__PURE__*/ _react.default.createElement(this.wrapped, _extends({}, this._getWrapped())) : null;
+                        if (!this.state.show) return null;
+                        return /*#__PURE__*/ _react.default.createElement(WrappedComponent, _extends({}, this._getWrapped()));
                     }
                 },
                 {
                     key: "componentDidMount",
                     value: function componentDidMount() {
                         var _props;
+                        var cid = this.state.cid;
                         var args = multiple ? [
                             namespace,
-                            this.cid
+                            cid
                         ] : [
                             namespace
                         ];
@@ -310,29 +312,33 @@ var Component = function(namespace, mapStateToProps, mapDispatchToProps, multipl
                 {
                     key: "componentWillUnmount",
                     value: function componentWillUnmount() {
-                        if (multiple) this.props.onRemoveComponent(namespace, this.cid);
+                        var _props;
+                        var cid = this.state.cid;
+                        var args = multiple ? [
+                            namespace,
+                            cid
+                        ] : [
+                            namespace
+                        ];
+                        (_props = this.props).onRemoveComponent.apply(_props, _toConsumableArray(args));
                     }
                 },
                 {
                     key: "_getWrapped",
                     value: function _getWrapped() {
-                        var router = this.context.router;
+                        var cid = this.state.cid;
                         return _objectSpreadProps(_objectSpread({}, _lodash.default.omit(this.props, [
                             "onAddComponent",
                             "onRemoveComponent"
                         ])), {
-                            con: router
+                            cid: cid
                         });
                     }
                 }
             ]);
             return Rubberstamp;
         }(_Component = _react.default.Component);
-        _defineProperty(Rubberstamp, "contextTypes", {
-            router: _propTypes.default.object
-        });
         _defineProperty(Rubberstamp, "propTypes", {
-            children: _propTypes.default.any,
             onAddComponent: _propTypes.default.func,
             onRemoveComponent: _propTypes.default.func
         });
@@ -340,9 +346,7 @@ var Component = function(namespace, mapStateToProps, mapDispatchToProps, multipl
             onAddComponent: _actions.addComponent,
             onRemoveComponent: _actions.removeComponent
         };
-        return (0, _reactRedux.connect)(null, componentMapDispatchToProps, null, {
-            pure: false
-        })(Rubberstamp);
+        return (0, _reactRedux.connect)(null, componentMapDispatchToProps)(Rubberstamp);
     };
 };
 var Builder = function(param) {
@@ -355,7 +359,7 @@ var Builder = function(param) {
     var mapDispatchToProps = Object.keys(actions).reduce(function(props, action) {
         return _objectSpreadProps(_objectSpread({}, props), _defineProperty({}, "on".concat(_lodash.default.upperFirst(action)), actions[action]));
     }, {});
-    var NamespacedComponent = Component(namespace, mapStateToProps, mapDispatchToProps, multiple)(component);
+    var NamespacedComponent = Rubberstamped(namespace, mapStateToProps, mapDispatchToProps, multiple)(component);
     NamespacedComponent.reducer = {
         namespace: namespace,
         "function": reducer

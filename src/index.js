@@ -5,18 +5,38 @@ import reducer from './reducer'
 import React from 'react'
 import _ from 'lodash'
 
-const Component = (namespace, mapStateToProps, mapDispatchToProps, multiple) => {
+const Rubberstamped = (namespace, mapStateToProps, mapDispatchToProps, multiple) => {
 
-  return (WrappedComponent) => {
+  return (Component) => {
+
+    const _mapStateToProps = (state, props) => {
+      const { cid  } = props
+      const path = multiple ? `${namespace}.${cid}` : namespace
+      const cstate = _.get(state, path)
+      return mapStateToProps(cstate, props)
+    }
+
+    const _mapDispatchToProps = (dispatch, props) => {
+      const { cid  } = props
+      return Object.keys(mapDispatchToProps).reduce((mapped, key) => ({
+        ...mapped,
+        [key]: function() {
+          const args = Array.prototype.slice.call(arguments)
+          const action = mapDispatchToProps[key](...args)
+          return dispatch({
+            ...action,
+            type: `${namespace}/${action.type}`,
+            ...(multiple) ? { cid } : {}
+          })
+        }
+      }), {})
+    }
+
+    const WrappedComponent = connect(_mapStateToProps, _mapDispatchToProps)(Component)
 
     class Rubberstamp extends React.Component {
 
-      static contextTypes = {
-        router: PropTypes.object
-      }
-
       static propTypes = {
-        children: PropTypes.any,
         onAddComponent: PropTypes.func,
         onRemoveComponent: PropTypes.func
       }
@@ -24,59 +44,35 @@ const Component = (namespace, mapStateToProps, mapDispatchToProps, multiple) => 
       constructor(props) {
         super(props)
         this.state = {
+          cid: _.random(100000, 999999).toString(36),
           show: false
         }
-        this.cid = _.random(100000, 999999).toString(36)
-        this.wrapped = connect(this._mapStateToProps, this._mapDispatchToProps())(WrappedComponent)
       }
 
       render() {
-        return this.state.show ? <this.wrapped { ...this._getWrapped() } /> : null
+        if(!this.state.show) return null
+        return <WrappedComponent { ...this._getWrapped() } />
       }
 
       componentDidMount() {
-        const args = multiple ? [ namespace, this.cid ] : [ namespace ]
+        const { cid } = this.state
+        const args = multiple ? [namespace, cid] : [namespace]
         this.props.onAddComponent(...args)
         this.setState({ show: true })
       }
 
       componentWillUnmount() {
-        if(multiple) this.props.onRemoveComponent(namespace, this.cid)
+        const { cid } = this.state
+        const args = multiple ? [namespace, cid] : [namespace]
+        this.props.onRemoveComponent(...args)
       }
 
       _getWrapped() {
-        const { router } = this.context
+        const { cid } = this.state
         return {
           ..._.omit(this.props, ['onAddComponent','onRemoveComponent']),
-          con: router
+          cid
         }
-      }
-
-      _mapStateToProps = (state, props) => {
-        const path = multiple ? `${namespace}.${this.cid}` : namespace
-        const cstate = _.get(state, path)
-        return {
-          cid: this.cid,
-          ...cstate ? mapStateToProps(cstate, props) : {}
-        }
-      }
-
-      _mapDispatchToProps = () => {
-        const cid = this.cid
-        return Object.keys(mapDispatchToProps).reduce((mapped, key) => ({
-          ...mapped,
-          [key]: function() {
-
-            const action = mapDispatchToProps[key](...Array.prototype.slice.call(arguments))
-
-            return {
-              ...action,
-              type: `${namespace}/${action.type}`,
-              ...(multiple) ? { cid } : {}
-            }
-
-          }
-        }), {})
       }
 
     }
@@ -86,7 +82,7 @@ const Component = (namespace, mapStateToProps, mapDispatchToProps, multiple) => 
       onRemoveComponent: actions.removeComponent
     }
 
-    return connect(null, componentMapDispatchToProps, null, { pure: false })(Rubberstamp)
+    return connect(null, componentMapDispatchToProps)(Rubberstamp)
 
   }
 
@@ -109,7 +105,7 @@ const Builder = ({ namespace, component, reducer, selectors, actions, multiple }
     [`on${_.upperFirst(action)}`]: actions[action]
   }), {})
 
-  const NamespacedComponent = Component(namespace, mapStateToProps, mapDispatchToProps, multiple)(component)
+  const NamespacedComponent = Rubberstamped(namespace, mapStateToProps, mapDispatchToProps, multiple)(component)
 
   NamespacedComponent.reducer = {
     namespace,
