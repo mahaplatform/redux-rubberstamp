@@ -13,7 +13,7 @@ const Rubberstamped = (namespace, mapStateToProps, mapDispatchToProps, multiple)
       const { cid  } = props
       const path = multiple ? `${namespace}.${cid}` : namespace
       const cstate = _.get(state, path)
-      return mapStateToProps(cstate, props)
+      return cstate ? mapStateToProps(cstate, props) : {}
     }
 
     const _mapDispatchToProps = (dispatch, props) => {

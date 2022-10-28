@@ -251,7 +251,7 @@ var Rubberstamped = function(namespace, mapStateToProps, mapDispatchToProps, mul
             var cid = props.cid;
             var path = multiple ? "".concat(namespace, ".").concat(cid) : namespace;
             var cstate = _lodash.default.get(state, path);
-            return mapStateToProps(cstate, props);
+            return cstate ? mapStateToProps(cstate, props) : {};
         };
         var _mapDispatchToProps = function(dispatch, props) {
             var cid = props.cid;
